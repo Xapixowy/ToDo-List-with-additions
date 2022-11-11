@@ -22,7 +22,7 @@ namespace ToDo_List_with_additions.Services
             // use openssl and the following line to create a PFX from your PEM:
             // openssl pkcs12 -export -in <x509>.pem -inkey <x509>.pem -out <x509>.pfx
             // and provide a password, which should match the second argument you pass to X509Certificate2
-            var cert = new X509Certificate2("./Certificates/Default.perm");
+            var cert = new X509Certificate2("./Certificates/Default.pfx","default");
 
             settings.SslSettings = new SslSettings
             {
