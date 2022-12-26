@@ -1,0 +1,61 @@
+﻿@model ToDo_List_with_additions.Models.ToDosModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Add new ToDo</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">UserId</th>
+            <th scope="col">Date</th>
+            <th scope="col">Content</th>
+            <th scope="col">Importance</th>
+            <th scope="col">Done</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ToDos) {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.UserId</td>
+                <td>@item.Date</td>
+                <td>@item.Content</td>
+                @{
+                    int importance = item.Importance;
+                    if (importance == 0)
+                    {
+                        <td>Low</td>
+                    }
+                    else if (importance == 1)
+                    {
+                        <td>Medium</td>
+
+                    }
+                    else if (importance == 2)
+                    {
+                        <td>High</td>
+                    }
+                    else
+                    {
+                        <td>Critical</td>
+                    }
+                }
+                <td>
+					<input type="checkbox" class="form-check-input" id="done" name="done" @(item.Done ? "checked" : "") required />
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+					<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -3,6 +3,7 @@ using ToDo_List_with_additions.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSingleton<UsersService>();
+builder.Services.AddSingleton<ToDosService>();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 

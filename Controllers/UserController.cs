@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson.Serialization.Attributes;
 using ToDo_List_with_additions.Models;
 using ToDo_List_with_additions.Services;
 
@@ -12,80 +13,56 @@ namespace ToDo_List_with_additions.Controllers
         {
             this.usersService = usersService;
         }
-        // GET: UserController
         public ActionResult Index()
         {
-            return View(usersService.Get());
+            var model = new UsersModel()
+            {
+                Users = usersService.Get()
+            };
+            return View(model);
         }
-
-        // GET: UserController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: UserController/Create
         public ActionResult Register()
         {
             return View();
         }
-
-        // POST: UserController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(User user)
+        public ActionResult Register(UserModel user)
         {
-            try
-            {
-                usersService.Register(user);
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            usersService.Register(user);
+            return RedirectToAction(nameof(Index));
         }
-
-        // GET: UserController/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string id)
         {
-            return View();
+            var user = usersService.GetUser(id);
+            var model = new UserModel()
+            {
+                Id = user.Id,
+                Login = user.Login,
+                Password = user.Password,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Nickname = user.Nickname
+            };
+            return View(model);
         }
-
-        // POST: UserController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(string id, string login, string password, string firstname, string lastname, string nickname)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var user = usersService.GetUser(id);
+            user.Login = login;
+            user.Password = password;
+            user.FirstName = firstname;
+            user.LastName = lastname;
+            user.Nickname = nickname;
+            usersService.Edit(user);
+            return RedirectToAction(nameof(Index));
         }
-
-        // GET: UserController/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(string id)
         {
-            return View();
-        }
-
-        // POST: UserController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+            usersService.Delete(id);
+            return RedirectToAction(nameof(Index));
+		}
     }
 }

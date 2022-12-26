@@ -5,10 +5,10 @@ using Microsoft.Extensions.Configuration;
 
 namespace ToDo_List_with_additions.Services
 {
-    public class UsersService
+    public class ToDosService
     {
-        private readonly IMongoCollection<UserModel> Users;
-        public UsersService(IConfiguration config)
+        private readonly IMongoCollection<ToDoModel> toDos;
+        public ToDosService(IConfiguration config)
         {
             var settings = MongoClientSettings.FromConnectionString(config.GetValue<string>("Database:ConnectionString"));
             settings.ServerApi = new ServerApi(ServerApiVersion.V1);
@@ -19,32 +19,32 @@ namespace ToDo_List_with_additions.Services
             };
             MongoClient client = new MongoClient(settings);
             IMongoDatabase database = client.GetDatabase(config.GetValue<string>("Database:DatabaseName"));
-            Users = database.GetCollection<UserModel>("users");
+            toDos = database.GetCollection<ToDoModel>("todos");
         }
-        public List<UserModel> Get()
+        public List<ToDoModel> Get()
         {
-            return Users.Find(User => true).ToList();
+            return toDos.Find(ToDo => true).ToList();
         }
-        public UserModel GetUser(string id)
+        public ToDoModel GetToDo(string id)
         {
-            UserModel user = Users.Find<UserModel>(User => User.Id == id).FirstOrDefault();
-            return user;
+            ToDoModel toDo = toDos.Find<ToDoModel>(ToDo => ToDo.Id == id).FirstOrDefault();
+            return toDo;
         }
-        public UserModel Register(UserModel user)
+        public ToDoModel Create(ToDoModel toDo)
         {
-            Users.InsertOne(user);
-            return user;
+            toDos.InsertOne(toDo);
+            return toDo;
         }
-        public UserModel Edit(UserModel user)
+        public ToDoModel Edit(ToDoModel toDo)
         {
-            Users.ReplaceOne(User => User.Id == user.Id, user);
-            return user;
+            toDos.ReplaceOne(ToDo => ToDo.Id == toDo.Id, toDo);
+            return toDo;
         }
-        public UserModel Delete(string id)
+        public ToDoModel Delete(string id)
         {
-            UserModel user = Users.Find<UserModel>(User => User.Id == id).FirstOrDefault();
-            Users.DeleteOne(User => User.Id == id);
-            return user;
+            ToDoModel toDo = toDos.Find<ToDoModel>(ToDo => ToDo.Id == id).FirstOrDefault();
+            toDos.DeleteOne(ToDo => ToDo.Id == id);
+            return toDo;
         }
     }
 }

@@ -4,11 +4,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ToDo_List_with_additions.Models
 {
-    public class User
+    public class EditUserModel
     {
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string? Id { get; set; }
         [BsonElement("login")]
         [Required]
         public string? Login { get; set; }
