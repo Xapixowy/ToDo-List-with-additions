@@ -19,8 +19,12 @@ namespace ToDo_List_with_additions.Controllers
         }
         public ActionResult Index()
         {
-            
-            var userId = HttpContext.Session.GetString("userId");
+			if (HttpContext.Session.GetString("userId") == null)
+			{
+				return RedirectToAction("Login", "User");
+			}
+			Console.WriteLine("Index ToDo:" + HttpContext.Session.GetString("userId"));
+			var userId = HttpContext.Session.GetString("userId");
             var model = new ToDosModel()
             {
                 ToDos = toDosService.Get(userId)
@@ -29,20 +33,25 @@ namespace ToDo_List_with_additions.Controllers
         }
         public ActionResult Create()
         {
-            return View();
+			return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(DateTime date, string content, int importance, bool done)
         {
-            if (ModelState.IsValid)
+            Console.WriteLine("Create ToDo:" + HttpContext.Session.GetString("userId"));
+			if (HttpContext.Session.GetString("userId") == null)
+			{
+				return RedirectToAction("Login", "User");
+			}
+			if (ModelState.IsValid)
             {
                 var userId = HttpContext.Session.GetString("userId");
                 var toDo = new ToDoModel()
                 {
                     UserId = userId,
-                    Date = date.AddHours(1),
-                    Content = content,
+					Date = date.AddHours(1),
+				    Content = content,
                     Importance = importance,
                     Done = done
                 };
@@ -53,7 +62,11 @@ namespace ToDo_List_with_additions.Controllers
         }
         public ActionResult Edit(string id)
         {
-            var toDo = toDosService.GetToDo(id);
+			if (HttpContext.Session.GetString("userId") == null)
+			{
+				return RedirectToAction("Login", "User");
+			}
+			var toDo = toDosService.GetToDo(id);
             var model = new ToDoModel()
             {
                 Id = toDo.Id,
@@ -69,17 +82,30 @@ namespace ToDo_List_with_additions.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(string id, DateTime date, string content, int importance, bool done)
         {
-            var toDo = toDosService.GetToDo(id);
-            toDo.Date = date.AddHours(1);
-            toDo.Content = content;
-            toDo.Done = done;
-            toDo.Importance = importance;
-            toDosService.Edit(toDo);
-            return RedirectToAction(nameof(Index));
+			if (HttpContext.Session.GetString("userId") == null)
+			{
+				return RedirectToAction("Login", "User");
+			}
+			if (ModelState.IsValid)
+            {
+                Console.WriteLine("Edit ToDo:" + HttpContext.Session.GetString("userId"));
+                var toDo = toDosService.GetToDo(id);
+                toDo.Date = date.AddHours(1);
+                toDo.Content = content;
+                toDo.Done = done;
+                toDo.Importance = importance;
+                toDosService.Edit(toDo);
+                return RedirectToAction(nameof(Index));
+            }
+            return View();
         }
         public ActionResult Delete(string id)
         {
-            toDosService.Delete(id);
+			if (HttpContext.Session.GetString("userId") == null)
+			{
+				return RedirectToAction("Login", "User");
+			}
+			toDosService.Delete(id);
             return RedirectToAction(nameof(Index));
 		}
     }

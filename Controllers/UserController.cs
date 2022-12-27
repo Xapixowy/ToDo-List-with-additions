@@ -25,19 +25,14 @@ namespace ToDo_List_with_additions.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(UserModel user)
         {
-
             var userFromDb = usersService.Login(user.Login, user.Password);
             if (userFromDb != null)
             {
                 HttpContext.Session.SetString("userId", userFromDb.Id);
                 return RedirectToAction("Index", "ToDo");
             }
-            
             ViewBag.LoginError = "Login or Password is incorrect";
-           
             return View();
-            
-         
         }
 
         public ActionResult Logout()

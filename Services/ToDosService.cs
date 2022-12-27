@@ -23,7 +23,10 @@ namespace ToDo_List_with_additions.Services
         }
         public List<ToDoModel> Get(string userId)
         {
-            return toDos.Find(ToDo => ToDo.UserId == userId).ToList();
+			var toDoList = toDos.Find(ToDo => ToDo.UserId == userId).ToList();
+			toDoList.Sort((x, y) => DateTime.Compare(x.Date, y.Date));
+            toDoList.Reverse();
+			return toDoList;
         }
         public ToDoModel GetToDo(string id)
         {
