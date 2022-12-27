@@ -1,0 +1,40 @@
+﻿@model ToDo_List_with_additions.Models.UsersModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Register">Register new User</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Login</th>
+            <th scope="col">Password</th>
+            <th scope="col">FirstName</th>
+            <th scope="col">LastName</th>
+            <th scope="col">Nickname</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Users) {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Login</td>
+                <td>@item.Password</td>
+                <td>@item.FirstName</td>
+                <td>@item.LastName</td>
+                <td>@item.Nickname</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+					<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

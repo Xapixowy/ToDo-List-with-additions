@@ -21,9 +21,9 @@ namespace ToDo_List_with_additions.Services
             IMongoDatabase database = client.GetDatabase(config.GetValue<string>("Database:DatabaseName"));
             toDos = database.GetCollection<ToDoModel>("todos");
         }
-        public List<ToDoModel> Get()
+        public List<ToDoModel> Get(string userId)
         {
-            return toDos.Find(ToDo => true).ToList();
+            return toDos.Find(ToDo => ToDo.UserId == userId).ToList();
         }
         public ToDoModel GetToDo(string id)
         {

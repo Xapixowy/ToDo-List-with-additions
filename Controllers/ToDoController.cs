@@ -19,9 +19,11 @@ namespace ToDo_List_with_additions.Controllers
         }
         public ActionResult Index()
         {
+            //getsession string
+            var userId = HttpContext.Session.GetString("userId");
             var model = new ToDosModel()
             {
-                ToDos = toDosService.Get()
+                ToDos = toDosService.Get(userId)
             };
             return View(model);
         }
@@ -33,8 +35,10 @@ namespace ToDo_List_with_additions.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(DateTime date, string content, int importance, bool done)
         {
+            var userId = HttpContext.Session.GetString("userId");
             var toDo = new ToDoModel()
             {
+                UserId = userId,
                 Date = date.AddHours(1),
                 Content = content,
                 Importance = importance,

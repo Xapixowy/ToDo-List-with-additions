@@ -15,12 +15,32 @@ namespace ToDo_List_with_additions.Controllers
         }
         public ActionResult Index()
         {
-            var model = new UsersModel()
-            {
-                Users = usersService.Get()
-            };
-            return View(model);
+            return View("Login");
         }
+        public ActionResult Login()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(UserModel user)
+        {
+
+            var userFromDb = usersService.Login(user.Login, user.Password);
+            if (userFromDb != null)
+            {
+                HttpContext.Session.SetString("userId", userFromDb.Id);
+                return RedirectToAction("Index", "ToDo");
+            }
+            return RedirectToAction(nameof(Login));
+        }
+
+        public ActionResult Logout()
+        {
+            HttpContext.Session.Remove("userId");
+            return RedirectToAction(nameof(Login));
+        }
+     
         public ActionResult Register()
         {
             return View();
