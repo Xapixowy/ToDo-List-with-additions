@@ -12,11 +12,13 @@ namespace ToDo_List_with_additions.Controllers
 {
     public class ToDoController : Controller
     {
-        private readonly ToDosService toDosService;
-        public ToDoController(ToDosService toDosService)
-        {
-            this.toDosService = toDosService;
-        }
+		private readonly ILogger<ToDoController> _logger;
+		private readonly IToDosService _toDosService;
+		public ToDoController(ILogger<ToDoController> logger, IToDosService toDosService)
+		{
+			_logger = logger;
+			_toDosService = toDosService;
+		}
         public ActionResult Index()
         {
 			if (HttpContext.Session.GetString("userId") == null)
@@ -27,7 +29,7 @@ namespace ToDo_List_with_additions.Controllers
 			var userId = HttpContext.Session.GetString("userId");
             var model = new ToDosModel()
             {
-                ToDos = toDosService.Get(userId)
+                ToDos = _toDosService.Get(userId)
             };
             return View(model);
         }
@@ -55,7 +57,7 @@ namespace ToDo_List_with_additions.Controllers
                     Importance = importance,
                     Done = done
                 };
-                toDosService.Create(toDo);
+				_toDosService.Create(toDo);
                 return RedirectToAction(nameof(Index));
             }
             return View();
@@ -66,7 +68,7 @@ namespace ToDo_List_with_additions.Controllers
 			{
 				return RedirectToAction("Login", "User");
 			}
-			var toDo = toDosService.GetToDo(id);
+			var toDo = _toDosService.GetToDo(id);
             var model = new ToDoModel()
             {
                 Id = toDo.Id,
@@ -89,12 +91,12 @@ namespace ToDo_List_with_additions.Controllers
 			if (ModelState.IsValid)
             {
                 Console.WriteLine("Edit ToDo:" + HttpContext.Session.GetString("userId"));
-                var toDo = toDosService.GetToDo(id);
+                var toDo = _toDosService.GetToDo(id);
                 toDo.Date = date.AddHours(1);
                 toDo.Content = content;
                 toDo.Done = done;
                 toDo.Importance = importance;
-                toDosService.Edit(toDo);
+				_toDosService.Edit(toDo);
                 return RedirectToAction(nameof(Index));
             }
             return View();
@@ -105,7 +107,7 @@ namespace ToDo_List_with_additions.Controllers
 			{
 				return RedirectToAction("Login", "User");
 			}
-			toDosService.Delete(id);
+			_toDosService.Delete(id);
             return RedirectToAction(nameof(Index));
 		}
     }

@@ -1,11 +1,10 @@
 ﻿using ToDo_List_with_additions.Models;
 using MongoDB.Driver;
 using System.Security.Cryptography.X509Certificates;
-using Microsoft.Extensions.Configuration;
 
 namespace ToDo_List_with_additions.Services
 {
-    public class UsersService
+    public class UsersService : IUsersService
     {
         private readonly IMongoCollection<UserModel> Users;
         public UsersService(IConfiguration config)

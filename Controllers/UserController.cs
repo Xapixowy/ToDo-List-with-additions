@@ -8,11 +8,13 @@ namespace ToDo_List_with_additions.Controllers
 {
     public class UserController : Controller
     {
-        private readonly UsersService usersService;
-        public UserController(UsersService usersService)
-        {
-            this.usersService = usersService;
-        }
+		private readonly ILogger<UserController> _logger;
+		private readonly IUsersService _usersService;
+		public UserController(ILogger<UserController> logger, IUsersService usersService)
+		{
+            _logger = logger;
+			_usersService = usersService;
+		}
         public ActionResult Index()
         {
             return View("Login");
@@ -25,7 +27,7 @@ namespace ToDo_List_with_additions.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(UserModel user)
         {
-            var userFromDb = usersService.Login(user.Login, user.Password);
+            var userFromDb = _usersService.Login(user.Login, user.Password);
             if (userFromDb != null)
             {
                 HttpContext.Session.SetString("userId", userFromDb.Id);
@@ -49,12 +51,12 @@ namespace ToDo_List_with_additions.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Register(UserModel user)
         {
-            usersService.Register(user);
+			_usersService.Register(user);
             return RedirectToAction(nameof(Index));
         }
         public ActionResult Edit(string id)
         {
-            var user = usersService.GetUser(id);
+            var user = _usersService.GetUser(id);
             var model = new UserModel()
             {
                 Id = user.Id,
@@ -70,18 +72,18 @@ namespace ToDo_List_with_additions.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(string id, string login, string password, string firstname, string lastname, string nickname)
         {
-            var user = usersService.GetUser(id);
+            var user = _usersService.GetUser(id);
             user.Login = login;
             user.Password = password;
             user.FirstName = firstname;
             user.LastName = lastname;
             user.Nickname = nickname;
-            usersService.Edit(user);
+			_usersService.Edit(user);
             return RedirectToAction(nameof(Index));
         }
         public ActionResult Delete(string id)
         {
-            usersService.Delete(id);
+			_usersService.Delete(id);
             return RedirectToAction(nameof(Index));
 		}
     }
