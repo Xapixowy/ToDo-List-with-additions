@@ -14,13 +14,13 @@ namespace ToDo_List_with_additions.Models
         [Required]
         public string UserId { get; set; }
         [BsonElement("date")]
-        [Required]
+        [Required(ErrorMessage = "Date is required")]
         public DateTime Date { get; set; }
         [BsonElement("content")]
-        [Required]
+        [Required(ErrorMessage = "Content is required")]
         public string Content { get; set; }
         [BsonElement("importance")]
-        [Required]
+        [Required(ErrorMessage = "Importance is required")]
         public int Importance { get; set; }
         [BsonElement("done")]
         [Required]

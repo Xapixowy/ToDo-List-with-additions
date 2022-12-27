@@ -11,6 +11,9 @@
 <div class="row">
     <div class="col-md-4">
         <form method="post" asp-action="Edit">
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            
             <div class="form-group" style="display:none">
                 <input type="text" class="form-control" name="id" value="@Model.Id" />
             </div>
@@ -19,11 +22,13 @@
             </div>
             <div class="form-group">
                 <label for="date">Date</label>
-				@Html.EditorFor(Model => Model.Date, new { htmlAttributes = new { @class = "form-control", @id="date", @name="date" } })
+                @Html.EditorFor(Model => Model.Date, new { htmlAttributes = new { @class = "form-control", @id="date", @name="date", @required="required" } })
+                @Html.ValidationMessageFor(Model => Model.Date, "", new { @class = "text-danger" })
             </div>
 			<div class="form-group">
 				<label for="content">Content</label>
-                <input type="text" class="form-control" id="content" name="content" value="@Model.Content" />
+                @Html.EditorFor(Model => Model.Content, new { htmlAttributes = new { @class = "form-control", @id="content", @name="content", @required="required" } })
+                @Html.ValidationMessageFor(Model => Model.Content, "", new { @class = "text-danger" })
 			</div>
 			<div class="form-group">
                 <label for="importance">Importance</label>
@@ -44,7 +49,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" asp-controller="ToDo">Back to List</a>
 </div>
 
 <script>

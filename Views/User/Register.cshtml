@@ -11,21 +11,30 @@
 <div class="row">
     <div class="col-md-4">
         <form method="post" asp-action="Register">
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            
             <div class="form-group">
                 <label for="login">Login</label>
-                <input type="text" class="form-control" id="login" name="login" />
+                
+                @Html.EditorFor(Model => Model.Login, new { htmlAttributes = new { @class = "form-control", @id="login", @name="login", @required="required" } })
+                @Html.ValidationMessageFor(Model => Model.Login, "", new { @class = "text-danger" })
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" name="password" required />
+             
+                @Html.EditorFor(Model => Model.Password, new { htmlAttributes = new { @class = "form-control", @id="password", @name="password", @required="required", @type="password"} })
+                @Html.ValidationMessageFor(Model => Model.Password, "", new { @class = "text-danger" })
             </div>
             <div class="form-group">
                 <label for="firstName">First Name</label>
-                <input type="text" class="form-control" id="firstName" name="firstName" required />
+                @Html.EditorFor(Model => Model.FirstName, new { htmlAttributes = new { @class = "form-control", @id="firstName", @name="firstName", @required="required" } })
+                @Html.ValidationMessageFor(Model => Model.FirstName, "", new { @class = "text-danger" })
             </div>
             <div class="form-group">
                 <label for="lastName">Last Name</label>
-                <input type="text" class="form-control" id="lastName" name="lastName" required />
+                @Html.EditorFor(Model => Model.LastName, new { htmlAttributes = new { @class = "form-control", @id="lastName", @name="lastName", @required="required" } })
+                @Html.ValidationMessageFor(Model => Model.LastName, "", new { @class = "text-danger" })
             </div>
             <div class="form-group">
                 <label for="nickname">Nickname</label>

@@ -11,22 +11,29 @@
 <div class="row">
     <div class="col-md-4">
         <form method="post" asp-action="Create">
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            
             <div class="form-group">
                 <label for="date">Date</label>
 				@Html.EditorFor(Model => Model.Date, new { htmlAttributes = new { @class = "form-control", @id="date", @name="date", @required="required" } })
+                @Html.ValidationMessageFor(Model => Model.Date, "", new { @class = "text-danger" })
             </div>
             <div class="form-group">
                 <label for="content">Content</label>
-                <input type="text" class="form-control" id="content" name="content" required />
+              
+                @Html.EditorFor(Model => Model.Content, new { htmlAttributes = new { @class = "form-control", @id="content", @name="content", @required="required" } })
+                @Html.ValidationMessageFor(Model => Model.Content, "", new { @class = "text-danger" })
             </div>
             <div class="form-group">
                 <label for="importance">Importance</label>
-                <select class="form-select" id="importance" name="importance" required>
+                <select class="form-select" id="importance" name="importance" >
                     <option value="0">Low</option>
                     <option value="1">Medium</option>
                     <option value="2">High</option>
                     <option value="3">Critical</option>
                 </select>
+            
             </div>
             <div class="form-check form-switch">
                 <label class="form-check-label" for="done">Done</label>

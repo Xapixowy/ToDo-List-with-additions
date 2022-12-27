@@ -32,7 +32,12 @@ namespace ToDo_List_with_additions.Controllers
                 HttpContext.Session.SetString("userId", userFromDb.Id);
                 return RedirectToAction("Index", "ToDo");
             }
-            return RedirectToAction(nameof(Login));
+            
+            ViewBag.LoginError = "Login or Password is incorrect";
+           
+            return View();
+            
+         
         }
 
         public ActionResult Logout()

@@ -10,7 +10,7 @@ namespace ToDo_List_with_additions.Models
         [Required]
         public string? Login { get; set; }
         [BsonElement("password")]
-        [Required]
+        [MinLength(6)]
         public string? Password { get; set; }
         [BsonElement("firstName")]
         [Required]
