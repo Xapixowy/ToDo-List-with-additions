@@ -16,6 +16,7 @@ namespace ToDo_List_with_additions.Models
         
         [BsonElement("password")]
         [StringLength(20, MinimumLength = 6, ErrorMessage = "Password must be at least 6 characters long")]
+        
         public string Password { get; set; }
         
         [BsonElement("firstName")]
