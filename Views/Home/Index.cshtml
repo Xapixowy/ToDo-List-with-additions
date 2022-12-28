@@ -2,7 +2,49 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@section Buttons {
+    <li>
+        <a asp-controller="User" asp-action="Login">Login</a>
+    </li>
+    <li>
+        <a class="register-btn" asp-controller="User" asp-action="Register">Register</a>
+    </li>
+}
+
+@section Attribution {
+    <div>Image by upklyak on Freepik</div>
+}
+
+<section class="first">
+    <div class="wrapper">
+        <h1>Do you ever wanted to be organized?</h1>
+        <div class="text">
+            <h2>Stay <span>Organized</span></h2>
+            <h2>Stay <span>Focused</span></h2>
+            <h2>Stay <span>Cool</span></h2>
+            <p>
+                Join our community with thousands of people and make your life truly perfect!
+            </p>
+        </div>
+        <img src="~/assets/section1-cropped.png" alt="Sketch of people analysing" />
+    </div>
+</section>
+<section class="second">
+    <div class="wrapper">
+        <img src="~/assets/section2.png" alt="Sketch of happy family" />
+        <div class="text">
+            <p>
+                <span>ToDo List with additions</span> is a solution for your everyday life problems and issues.
+            </p>
+            <p>
+		        Achieve all your goals and dreams with our help!
+            </p>
+            <p>
+                Absolute ballance for your mind!
+            </p>
+            <p>
+                From now you will never forget what you need to do!
+            </p>
+        </div>
+    </div>
+</section>

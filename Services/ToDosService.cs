@@ -20,12 +20,31 @@ namespace ToDo_List_with_additions.Services
             IMongoDatabase database = client.GetDatabase(config.GetValue<string>("Database:DatabaseName"));
             toDos = database.GetCollection<ToDoModel>("todos");
         }
-        public List<ToDoModel> Get(string userId)
+        public List<ToDoModel> GetToday(string userId)
         {
-			var toDoList = toDos.Find(ToDo => ToDo.UserId == userId).ToList();
-			toDoList.Sort((x, y) => DateTime.Compare(x.Date, y.Date));
+            var today = DateTime.Now.Date;
+            var filter = Builders<ToDoModel>.Filter.Eq(t => t.UserId, userId) & Builders<ToDoModel>.Filter.Eq(t => t.Done, false) & Builders<ToDoModel>.Filter.Gte(t => t.Date, today) & Builders<ToDoModel>.Filter.Lt(t => t.Date, today.AddDays(1));
+            var toDoList = toDos.Find(filter).ToList();
+            toDoList.Sort((x, y) => DateTime.Compare(x.Date, y.Date));
             toDoList.Reverse();
 			return toDoList;
+        }
+        public List<ToDoModel> GetOthers(string userId)
+        {
+            var today = DateTime.Now.Date;
+            var filter = Builders<ToDoModel>.Filter.Eq(t => t.UserId, userId) & Builders<ToDoModel>.Filter.Eq(t => t.Done, false) & Builders<ToDoModel>.Filter.Lt(t => t.Date, today);
+            var toDoList = toDos.Find(filter).ToList();
+            toDoList.Sort((x, y) => DateTime.Compare(x.Date, y.Date));
+            toDoList.Reverse();
+            return toDoList;
+        }
+        public List<ToDoModel> GetDone(string userId)
+        {
+            var filter = Builders<ToDoModel>.Filter.Eq(t => t.UserId, userId) & Builders<ToDoModel>.Filter.Eq(t => t.Done, true);
+            var toDoList = toDos.Find(filter).ToList();
+            toDoList.Sort((x, y) => DateTime.Compare(x.Date, y.Date));
+            toDoList.Reverse();
+            return toDoList;
         }
         public ToDoModel GetToDo(string id)
         {

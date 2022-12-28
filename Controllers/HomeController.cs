@@ -15,6 +15,10 @@ namespace ToDo_List_with_additions.Controllers
 
         public IActionResult Index()
         {
+            if (HttpContext.Session.GetString("userId") != null)
+            {
+                return RedirectToAction("Index", "ToDo");
+            }
             return View();
         }
 

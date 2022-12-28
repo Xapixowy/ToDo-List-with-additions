@@ -29,7 +29,9 @@ namespace ToDo_List_with_additions.Controllers
 			var userId = HttpContext.Session.GetString("userId");
             var model = new ToDosModel()
             {
-                ToDos = _toDosService.Get(userId)
+                ToDosToday = _toDosService.GetToday(userId),
+                ToDosOthers = _toDosService.GetOthers(userId),
+                ToDosDone = _toDosService.GetDone(userId)
             };
             return View(model);
         }

@@ -4,58 +4,142 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+@section Buttons {
+    <li>
+        <a asp-controller="User" asp-action="Logout">Logout</a>
+    </li>
+}
 
-<p>
-    <a asp-action="Create">Add new ToDo</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">Id</th>
-            <th scope="col">UserId</th>
-            <th scope="col">Date</th>
-            <th scope="col">Content</th>
-            <th scope="col">Importance</th>
-            <th scope="col">Done</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.ToDos) {
-            <tr>
-                <td>@item.Id</td>
-                <td>@item.UserId</td>
-                <td>@item.Date</td>
-                <td>@item.Content</td>
-                @{
-                    int importance = item.Importance;
-                    if (importance == 0)
-                    {
-                        <td>Low</td>
-                    }
-                    else if (importance == 1)
-                    {
-                        <td>Medium</td>
+@section Links {
+    <li>
+        <a asp-controller="ToDo" asp-action="Index">ToDo List</a>
+    </li>
+}
 
-                    }
-                    else if (importance == 2)
-                    {
-                        <td>High</td>
-                    }
-                    else
-                    {
-                        <td>Critical</td>
-                    }
+<div class="toDo">
+    <div class="wrapper">
+        <h1>ToDo List</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Done</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Content</th>
+                    <th scope="col">Importance</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.ToDosToday)
+                {
+                    <tr>
+                        <td>
+                            <input type="checkbox" class="form-check-input" id="done" name="done" @(item.Done ? "checked" : "") />
+                        </td>
+                        <td>@item.Date</td>
+                        <td>@item.Content</td>
+                        @{
+                            int importance = item.Importance;
+                            if (importance == 0)
+                            {
+                                <td>Low</td>
+                            }
+                            else if (importance == 1)
+                            {
+                                <td>Medium</td>
+
+                            }
+                            else if (importance == 2)
+                            {
+                                <td>High</td>
+                            }
+                            else
+                            {
+                                <td>Critical</td>
+                            }
+                        }
+                        <td>
+                            <a class="done-btn" asp-action="Done" asp-route-id="@item.Id">Done</a>
+                            <a class="edit-btn" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                            <a class="delete-btn" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    </tr>
                 }
-                <td>
-					<input type="checkbox" class="form-check-input" id="done" name="done" @(item.Done ? "checked" : "") required />
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-					<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                <tr>
+                    <td colspan="5"><hr /></td>
+                </tr>
+                @foreach (var item in Model.ToDosOthers)
+                {
+                    <tr>
+                        <td>
+                            <input type="checkbox" class="form-check-input" id="done" name="done" @(item.Done ? "checked" : "") />
+                        </td>
+                        <td>@item.Date</td>
+                        <td>@item.Content</td>
+                        @{
+                            int importance = item.Importance;
+                            if (importance == 0)
+                            {
+                                <td>Low</td>
+                            }
+                            else if (importance == 1)
+                            {
+                                <td>Medium</td>
+
+                            }
+                            else if (importance == 2)
+                            {
+                                <td>High</td>
+                            }
+                            else
+                            {
+                                <td>Critical</td>
+                            }
+                        }
+                        <td>
+                            <a class="done-btn" asp-action="Done" asp-route-id="@item.Id">Done</a>
+                            <a class="edit-btn" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                            <a class="delete-btn" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td colspan="5"><hr /></td>
+                </tr>
+                @foreach (var item in Model.ToDosDone)
+                {
+                    <tr>
+                        <td>
+                            <input type="checkbox" class="form-check-input" id="done" name="done" @(item.Done ? "checked" : "") />
+                        </td>
+                        <td>@item.Date</td>
+                        <td>@item.Content</td>
+                        @{
+                            int importance = item.Importance;
+                            if (importance == 0)
+                            {
+                                <td>Low</td>
+                            }
+                            else if (importance == 1)
+                            {
+                                <td>Medium</td>
+
+                            }
+                            else if (importance == 2)
+                            {
+                                <td>High</td>
+                            }
+                            else
+                            {
+                                <td>Critical</td>
+                            }
+                        }
+                        <td>
+                            <a class="delete-btn" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
