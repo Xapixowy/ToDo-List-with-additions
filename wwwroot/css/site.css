@@ -24,6 +24,7 @@ body div.wrapper {
 header {
     height: 70px;
     background-color: var(--navy);
+    z-index: 1;
 }
 
 header > div.wrapper {
@@ -44,6 +45,7 @@ header .app-name > a:hover {
 }
 
 header nav.links {
+    margin-left: 25px;
     flex-grow: 1;
 }
 
@@ -63,12 +65,13 @@ header nav > ul > li > a:hover {
     opacity: 0.9;
 }
 
-header .register-btn {
+header nav > ul > li > a:where(.register-btn, .toDo-history) {
     padding: 5px 10px;
     color: var(--navy);
     background-color: var(--mint);
     border-radius: 5px;
     font-weight: bold;
+    cursor: pointer;
 }
 
 header .links li {
@@ -196,6 +199,11 @@ main form > div.form-group > input {
     padding: 5px 10px;
 }
 
+main form > div.form-group > select {
+    font-size: 1em;
+    padding: 5px 10px;
+}
+
 main form > div.form-group span.field-validation-error {
     color: tomato;
 }
@@ -210,7 +218,7 @@ main form > div.form-group.buttons button {
     background-color: var(--turquoise);
     color: #fff;
     border-radius: 5px;
-    border: 2px outset var(--navy);
+    border: none;
     transition: opacity 0.1s, transform 0.05s;
 }
 
@@ -228,16 +236,178 @@ main h1 {
     text-align: center;
 }
 
-div:where(.login, .register) > div.wrapper {
+div:where(.login, .register, .toDo-list, .toDos-create) > div.wrapper {
     padding: 50px 15px;
 }
 
-div:where(.login, .register) h1 {
+div:where(.login, .register, .toDo-list, .toDos-create) h1 {
     margin-bottom: 25px;
 }
 
-div:where(.login, .register) form {
+div:where(.login, .register, .toDo-list, .toDos-create) form {
     margin: 0 auto;
+}
+
+div.toDo-list div.table {
+    display: flex;
+    flex-direction: column;
+}
+
+div.toDo-list div.table > div:where(.toDosToday, .toDosOthers) {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+div.toDo-list div.table h2,
+div.toDosDone h2 {
+    width: 100%;
+    font-size: 2em;
+    margin-bottom: 25px;
+}
+
+div.toDo-list div.table div.toDo,
+div.toDosDone div.toDo {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+div.toDo-list div.table div.toDo.toDo-headers,
+div.toDosDone div.toDo.toDo-headers {
+    font-weight: 700;
+}
+
+div.toDo-list div.table div.toDo > div,
+div.toDosDone div.wrapper > div {
+    margin: 10px 0;
+}
+
+div.toDo-list div.table div.toDo > div.toDo-done,
+div.toDosDone div.wrapper div.toDo > div.toDo-done {
+    text-align: center;
+    width: 75px;
+}
+
+div.toDo-list div.table div.toDo > div.toDo-done > i,
+div.toDosDone div.wrapper div.toDo > div.toDo-done > i {
+    font-size: 1.5em;
+}
+
+div.toDo-list div.table div.toDo > div.toDo-date,
+div.toDosDone div.wrapper div.toDo > div.toDo-date {
+    width: 200px;
+}
+
+div.toDo-list div.table div.toDo > div.toDo-content,
+div.toDosDone div.wrapper div.toDo > div.toDo-content {
+    flex-grow: 1;
+}
+
+div.toDo-list div.table div.toDo > div.toDo-importance,
+div.toDosDone div.wrapper div.toDo > div.toDo-importance {
+    width: 100px;
+}
+
+div.toDo-list div.table div.toDo > div.toDo-actions,
+div.toDosDone div.wrapper div.toDo > div.toDo-actions {
+    text-align: center;
+    width: 250px;
+}
+
+div.toDo-list div.table div.toDo > div.toDo-actions > a,
+div.toDosDone div.wrapper div.toDo > div.toDo-actions > a {
+    text-decoration: none;
+    color: #000;
+    margin: 0 5px;
+    padding: 5px 15px;
+    border: none;
+    border-radius: 5px;
+    transition: opacity 0.1s, transform 0.05s;
+    cursor: pointer;
+}
+
+div.toDo-list div.table div.toDo > div.toDo-actions > a:hover,
+div.toDosDone div.wrapper div.toDo > div.toDo-actions > a:hover {
+    opacity: 0.8;
+}
+
+div.toDo-list div.table div.toDo > div.toDo-actions > a:active,
+div.toDosDone div.wrapper div.toDo > div.toDo-actions > a:active {
+    transform: scale(1.05);
+}
+
+div.toDo-list div.table div.toDo > div.toDo-actions > a.done-btn,
+div.toDosDone div.wrapper div.toDo > div.toDo-actions > a.done-btn {
+    background-color: #228b22;
+    color: #fff;
+}
+
+div.toDo-list div.table div.toDo > div.toDo-actions > a.edit-btn,
+div.toDosDone div.wrapper div.toDo > div.toDo-actions > a.edit-btn {
+    background-color: #ffca2c;
+    color: #000;
+}
+
+div.toDo-list div.table div.toDo > div.toDo-actions > a.delete-btn,
+div.toDosDone div.wrapper div.toDo > div.toDo-actions > a.delete-btn {
+    background-color: #c73131;
+    color: #fff;
+}
+
+div.toDo-list div.table h2 > span.count,
+div.toDosDone h2 > span.count {
+    color: var(--turquoise);
+}
+
+div.toDo-list div.table div.buttons {
+    margin: 25px 0;
+    display: flex;
+    justify-content: center;
+}
+
+div.toDo-list div.table div.buttons > a {
+    text-decoration: none;
+    padding: 10px 15px;
+    background-color: var(--turquoise);
+    color: #fff;
+    border-radius: 5px;
+    border: none;
+    transition: opacity 0.1s, transform 0.05s;
+    cursor: pointer;
+}
+
+div.toDo-list div.table div.buttons > a:hover {
+    opacity: 0.8;
+}
+
+div.toDo-list div.table div.buttons > a:active {
+    transform: scale(1.05);
+}
+
+div.toDosDone {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: #fff;
+    transform: translateY(100vh);
+    transition: transform 0.5s;
+    overflow-y: scroll;
+}
+
+div.toDosDone.show {
+    transform: translateY(0);
+}
+
+div.toDosDone > div.wrapper {
+    margin: 70px 0;
+    padding: 50px 15px;
+}
+
+i.ti.ti-square-check {
+    color: green;
 }
 
 footer {
@@ -251,6 +421,7 @@ footer {
     justify-content: center;
     gap: 5px;
     text-align: center;
+    z-index: 1;
 }
 
 footer > div.footer {

@@ -6,6 +6,9 @@
 
 @section Buttons {
     <li>
+        <a class="toDo-history">Show history</a>
+    </li>
+    <li>
         <a asp-controller="User" asp-action="Logout">Logout</a>
     </li>
 }
@@ -14,132 +17,184 @@
     <li>
         <a asp-controller="ToDo" asp-action="Index">ToDo List</a>
     </li>
+    <li>
+        <a asp-controller="Statistics" asp-action="Index">Statistics</a>
+    </li>
 }
 
-<div class="toDo">
+<div class="toDo-list">
     <div class="wrapper">
         <h1>ToDo List</h1>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Done</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Content</th>
-                    <th scope="col">Importance</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
+        <div class="table">
+            <div class="toDosToday">
+                <h2>Today <span class="count">(@Model.ToDosToday.Count)</span></h2>
+                <div class="toDo toDo-headers">
+                    <div class="toDo-done">Done</div>
+                    <div class="toDo-date">Date</div>
+                    <div class="toDo-content">Content</div>
+                    <div class="toDo-importance">Importance</div>
+                    <div class="toDo-actions">Actions</div>
+                </div>
                 @foreach (var item in Model.ToDosToday)
                 {
-                    <tr>
-                        <td>
-                            <input type="checkbox" class="form-check-input" id="done" name="done" @(item.Done ? "checked" : "") />
-                        </td>
-                        <td>@item.Date</td>
-                        <td>@item.Content</td>
-                        @{
-                            int importance = item.Importance;
-                            if (importance == 0)
+					<div class="toDo">
+                        <div class="toDo-done">
+                            @if (item.Done)
                             {
-                                <td>Low</td>
-                            }
-                            else if (importance == 1)
-                            {
-                                <td>Medium</td>
-
-                            }
-                            else if (importance == 2)
-                            {
-                                <td>High</td>
+                                <i class="ti ti-square-check"></i>
                             }
                             else
                             {
-                                <td>Critical</td>
+                                <i class='ti ti-square'></i>
                             }
-                        }
-                        <td>
+                        </div>
+						<div class="toDo-date">@item.Date</div>
+						<div class="toDo-content">@item.Content</div>
+						@{
+							int importance = item.Importance;
+							if (importance == 0)
+							{
+								<div class="toDo-importance">Low</div>
+							}
+							else if (importance == 1)
+							{
+								<div class="toDo-importance">Medium</div>
+
+							}
+							else if (importance == 2)
+							{
+								<div class="toDo-importance">High</div>
+							}
+							else
+							{
+								<div class="toDo-importance">Critical</div>
+							}
+						}
+						<div class="toDo-actions">
                             <a class="done-btn" asp-action="Done" asp-route-id="@item.Id">Done</a>
                             <a class="edit-btn" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
                             <a class="delete-btn" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                        </td>
-                    </tr>
+                        </div>
+                    </div>
                 }
-                <tr>
-                    <td colspan="5"><hr /></td>
-                </tr>
+            </div>
+            <hr />
+            <div class="toDosOthers">
+                <h2>Others <span class="count">(@Model.ToDosOthers.Count)</span></h2>
+                <div class="toDo toDo-headers">
+                    <div class="toDo-done">Done</div>
+                    <div class="toDo-date">Date</div>
+                    <div class="toDo-content">Content</div>
+                    <div class="toDo-importance">Importance</div>
+                    <div class="toDo-actions">Actions</div>
+                </div>
                 @foreach (var item in Model.ToDosOthers)
                 {
-                    <tr>
-                        <td>
-                            <input type="checkbox" class="form-check-input" id="done" name="done" @(item.Done ? "checked" : "") />
-                        </td>
-                        <td>@item.Date</td>
-                        <td>@item.Content</td>
+                    <div class="toDo">
+                        <div class="toDo-done">
+                            @if(item.Done)
+                            {
+                                <i class="ti ti-square-check"></i>
+                            } else
+                            {
+                                <i class='ti ti-square'></i>
+                            }
+                        </div>
+                        <div class="toDo-date">@item.Date</div>
+                        <div class="toDo-content">@item.Content</div>
                         @{
                             int importance = item.Importance;
                             if (importance == 0)
                             {
-                                <td>Low</td>
+                                <div class="toDo-importance">Low</div>
                             }
                             else if (importance == 1)
                             {
-                                <td>Medium</td>
+                                <div class="toDo-importance">Medium</div>
 
                             }
                             else if (importance == 2)
                             {
-                                <td>High</td>
+                                <div class="toDo-importance">High</div>
                             }
                             else
                             {
-                                <td>Critical</td>
+                                <div class="toDo-importance">Critical</div>
                             }
                         }
-                        <td>
+                        <div class="toDo-actions">
                             <a class="done-btn" asp-action="Done" asp-route-id="@item.Id">Done</a>
                             <a class="edit-btn" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
                             <a class="delete-btn" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                        </td>
-                    </tr>
+                        </div>
+                    </div>
                 }
-                <tr>
-                    <td colspan="5"><hr /></td>
-                </tr>
-                @foreach (var item in Model.ToDosDone)
-                {
-                    <tr>
-                        <td>
-                            <input type="checkbox" class="form-check-input" id="done" name="done" @(item.Done ? "checked" : "") />
-                        </td>
-                        <td>@item.Date</td>
-                        <td>@item.Content</td>
-                        @{
-                            int importance = item.Importance;
-                            if (importance == 0)
-                            {
-                                <td>Low</td>
-                            }
-                            else if (importance == 1)
-                            {
-                                <td>Medium</td>
-
-                            }
-                            else if (importance == 2)
-                            {
-                                <td>High</td>
-                            }
-                            else
-                            {
-                                <td>Critical</td>
-                            }
-                        }
-                        <td>
-                            <a class="delete-btn" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+            </div>
+            <div class="buttons">
+                <a class="toDo-create" asp-action="Create">Create new</a>
+            </div>
+        </div>
     </div>
 </div>
+
+<div class="toDosDone">
+    <div class="wrapper">
+        <h2>History <span class="count">(@Model.ToDosDone.Count)</span></h2>
+        <div class="toDo toDo-headers">
+            <div class="toDo-done">Done</div>
+            <div class="toDo-date">Date</div>
+            <div class="toDo-content">Content</div>
+            <div class="toDo-importance">Importance</div>
+            <div class="toDo-actions">Actions</div>
+        </div>
+        @foreach (var item in Model.ToDosDone)
+        {
+            <div class="toDo">
+                <div class="toDo-done">
+                    @if (item.Done)
+                    {
+                        <i class="ti ti-square-check"></i>
+                    }
+                    else
+                    {
+                        <i class='ti ti-square'></i>
+                    }
+                </div>
+                <div class="toDo-date">@item.Date</div>
+                <div class="toDo-content">@item.Content</div>
+                @{
+                    int importance = item.Importance;
+                    if (importance == 0)
+                    {
+                        <div class="toDo-importance">Low</div>
+                    }
+                    else if (importance == 1)
+                    {
+                        <div class="toDo-importance">Medium</div>
+
+                    }
+                    else if (importance == 2)
+                    {
+                        <div class="toDo-importance">High</div>
+                    }
+                    else
+                    {
+                        <div class="toDo-importance">Critical</div>
+                    }
+                }
+                <div class="toDo-actions">
+                    <a class="delete-btn" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<script>
+    const toDosHistory = document.querySelector('div.toDosDone');
+    const historyButton = document.querySelector('a.toDo-history');
+
+    historyButton.addEventListener('click', () => {
+        toDosHistory.classList.toggle('show');
+        toDosHistory.classList.contains('show') ? historyButton.innerText = 'Hide history' : historyButton.innerText = 'Show history';
+    })
+</script>
