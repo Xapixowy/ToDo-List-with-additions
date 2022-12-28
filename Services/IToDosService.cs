@@ -11,5 +11,6 @@ namespace ToDo_List_with_additions.Services
         public ToDoModel Create(ToDoModel toDo);
         public ToDoModel Edit(ToDoModel toDo);
         public ToDoModel Delete(string id);
+        public ToDoModel Done(string id);
     }
 }

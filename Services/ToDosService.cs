@@ -67,5 +67,12 @@ namespace ToDo_List_with_additions.Services
             toDos.DeleteOne(ToDo => ToDo.Id == id);
             return toDo;
         }
+        public ToDoModel Done(string id)
+        {
+            ToDoModel toDo = toDos.Find<ToDoModel>(ToDo => ToDo.Id == id).FirstOrDefault();
+            toDo.Done = true;
+            toDos.ReplaceOne(ToDo => ToDo.Id == toDo.Id, toDo);
+            return toDo;
+        }
     }
 }

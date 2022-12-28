@@ -10,11 +10,14 @@ namespace ToDo_List_with_additions.Controllers
     {
 		private readonly ILogger<UserController> _logger;
 		private readonly IUsersService _usersService;
-		public UserController(ILogger<UserController> logger, IUsersService usersService)
-		{
+        private readonly IStatisticsService _statisticsService;
+        public UserController(ILogger<UserController> logger, IUsersService usersService, IStatisticsService statisticsService)
+        {
             _logger = logger;
-			_usersService = usersService;
-		}
+            _usersService = usersService;
+            _statisticsService = statisticsService;
+        }
+
         public ActionResult Index()
         {
             return View("Login");
@@ -52,6 +55,7 @@ namespace ToDo_List_with_additions.Controllers
         public ActionResult Register(UserModel user)
         {
 			_usersService.Register(user);
+            _statisticsService.Create(user.Id);
             return RedirectToAction(nameof(Index));
         }
         public ActionResult Edit(string id)

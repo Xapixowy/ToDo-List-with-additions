@@ -32,6 +32,7 @@ namespace ToDo_List_with_additions.Services
         public UserModel Register(UserModel user)
         {
             Users.InsertOne(user);
+            
             return user;
         }
         public UserModel Edit(UserModel user)

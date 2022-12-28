@@ -16,7 +16,7 @@ namespace ToDo_List_with_additions.Models
         public string UserId { get; set; }
         
         [BsonElement("date")]
-        [Required(ErrorMessage = "Date is required")]
+        [DateValidation(ErrorMessage = "Date must be in the future")]
         public DateTime Date { get; set; }
         
         [BsonElement("content")]
@@ -30,5 +30,23 @@ namespace ToDo_List_with_additions.Models
         [BsonElement("done")]
         [Required]
         public bool Done { get; set; }
+
+       
+        
+    }
+
+    public class DateValidationAttribute : ValidationAttribute
+    {
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        {
+
+            var date = value as DateTime?;
+            DateTime now = DateTime.Now;
+            if (date > now)
+            {
+                return ValidationResult.Success;
+            }
+            return new ValidationResult("Date must be in the future");
+        }
     }
 }

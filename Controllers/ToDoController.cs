@@ -14,11 +14,13 @@ namespace ToDo_List_with_additions.Controllers
     {
 		private readonly ILogger<ToDoController> _logger;
 		private readonly IToDosService _toDosService;
-		public ToDoController(ILogger<ToDoController> logger, IToDosService toDosService)
+        private readonly IStatisticsService _statisticsService;
+        public ToDoController(ILogger<ToDoController> logger, IToDosService toDosService, IStatisticsService statisticsService)
 		{
 			_logger = logger;
 			_toDosService = toDosService;
-		}
+            _statisticsService = statisticsService;
+        }
         public ActionResult Index()
         {
 			if (HttpContext.Session.GetString("userId") == null)
@@ -37,7 +39,11 @@ namespace ToDo_List_with_additions.Controllers
         }
         public ActionResult Create()
         {
-			return View();
+            if (HttpContext.Session.GetString("userId") == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+            return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -60,6 +66,7 @@ namespace ToDo_List_with_additions.Controllers
                     Done = done
                 };
 				_toDosService.Create(toDo);
+                _statisticsService.IncrementNotDone(userId, toDo.Importance);
                 return RedirectToAction(nameof(Index));
             }
             return View();
@@ -93,12 +100,20 @@ namespace ToDo_List_with_additions.Controllers
 			if (ModelState.IsValid)
             {
                 Console.WriteLine("Edit ToDo:" + HttpContext.Session.GetString("userId"));
+                var toDoBase = _toDosService.GetToDo(id);
                 var toDo = _toDosService.GetToDo(id);
                 toDo.Date = date.AddHours(1);
                 toDo.Content = content;
                 toDo.Done = done;
                 toDo.Importance = importance;
 				_toDosService.Edit(toDo);
+
+                if (toDoBase.Date != date )
+                {
+                    _statisticsService.IncrementPostponed(HttpContext.Session.GetString("userId"), toDo.Importance);
+                    
+                }
+                
                 return RedirectToAction(nameof(Index));
             }
             return View();
@@ -112,5 +127,20 @@ namespace ToDo_List_with_additions.Controllers
 			_toDosService.Delete(id);
             return RedirectToAction(nameof(Index));
 		}
+
+        public ActionResult Done(string id)
+        {
+            if (HttpContext.Session.GetString("userId") == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+            var toDo = _toDosService.GetToDo(id);
+          
+            _toDosService.Done(toDo.Id);
+            _statisticsService.IncrementDone(HttpContext.Session.GetString("userId"), toDo.Importance);
+            _statisticsService.DecrementNotDone(HttpContext.Session.GetString("userId"), toDo.Importance);
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
