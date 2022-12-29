@@ -58,6 +58,7 @@ namespace ToDo_List_with_additions.Controllers
             if (userValidation == null)
             {
                 _usersService.Register(user);
+                _statisticsService.Create(user.Id);
                 var userFromDb = _usersService.Login(user.Login, user.Password);
                 HttpContext.Session.SetString("userId", userFromDb.Id);
                 return RedirectToAction("Index", "ToDo");

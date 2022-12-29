@@ -52,7 +52,6 @@ namespace ToDo_List_with_additions.Services
             Users.DeleteOne(User => User.Id == id);
             return user;
         }
-        //create login method
         public UserModel Login(string login, string password)
         {
             UserModel user = Users.Find<UserModel>(User => User.Login == login && User.Password == password).FirstOrDefault();
