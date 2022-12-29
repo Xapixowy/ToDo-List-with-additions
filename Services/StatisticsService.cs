@@ -92,5 +92,14 @@ namespace ToDo_List_with_additions.Services
 
             return statistics;
         }
+        
+        public StatisticsModel Get(string userId)
+        {
+            var statistics = new StatisticsModel();
+
+            statistics = stats.Find<StatisticsModel>(User => User.userId == userId).FirstOrDefault();
+
+            return statistics;
+        }
     }
 }

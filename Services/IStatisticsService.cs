@@ -9,5 +9,6 @@ namespace ToDo_List_with_additions.Services
         public StatisticsModel IncrementNotDone(string userId, int importance);
         public StatisticsModel IncrementPostponed(string userId, int importance);
         public StatisticsModel DecrementNotDone(string userId, int importance);
+        public StatisticsModel Get(string userId);
     }
 }

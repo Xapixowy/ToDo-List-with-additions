@@ -1,0 +1,74 @@
+﻿@model ToDo_List_with_additions.Models.StatisticsModel
+
+@{
+    ViewData["Title"] = "Statistics";
+}
+
+@section Buttons {
+        <li>
+            <a asp-controller="User" asp-action="Edit">Edit profile</a>
+        </li>
+        <li>
+            <a asp-controller="User" asp-action="Logout">Logout</a>
+        </li>
+}
+
+@section Links {
+        <li>
+            <a asp-controller="ToDo" asp-action="Index">ToDo List</a>
+        </li>
+}
+
+<div class="statistics">
+    <div class="wrapper">
+        <h1>Statistics</h1>
+        <div class="table">
+            <div></div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.1.1/chart.min.js"></script>
+<script>
+    
+</script>
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col"></th>
+            <th scope="col">Done</th>
+            <th scope="col">NotDone</th>
+            <th scope="col">Postponed</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td scope="col">Low</td>
+            <td scope="col">@Model.Done["0"]</td>
+            <td scope="col">@Model.NotDone["0"]</td>
+            <td scope="col">@Model.Postponed["0"]</td>
+        </tr>
+        <tr>
+            <td scope="col">Medium</td>
+            <td scope="col">@Model.Done["1"]</td>
+            <td scope="col">@Model.NotDone["1"]</td>
+            <td scope="col">@Model.Postponed["1"]</td>
+        </tr>
+        <tr>
+            <td scope="col">High</td>
+            <td scope="col">@Model.Done["2"]</td>
+            <td scope="col">@Model.NotDone["2"]</td>
+            <td scope="col">@Model.Postponed["2"]</td>
+        </tr>
+        <tr>
+            <td scope="col">Criticla</td>
+            <td scope="col">@Model.Done["3"]</td>
+            <td scope="col">@Model.NotDone["3"]</td>
+            <td scope="col">@Model.Postponed["3"]</td>
+        </tr>
+    </tbody>
+    
+</table>

@@ -21,6 +21,12 @@
                 <label for="login">Login</label>
                 @Html.EditorFor(Model => Model.Login, new { htmlAttributes = new { @id="login", @name="login", @required="required" } })
                 @Html.ValidationMessageFor(Model => Model.Login)
+                    <div class="form-group">
+                    @if (@ViewBag.LoginError != null)
+                    {
+                        <span class="field-validation-error">@ViewBag.LoginError</span>
+                    }
+            </div>
             </div>
             
             <div class="form-group">
@@ -43,12 +49,14 @@
             
             <div class="form-group">
                 <label for="nickname">Nickname</label>
-                <input type="text" id="nickname" name="nickname" required />
+                @Html.EditorFor(Model => Model.Nickname, new { htmlAttributes = new { @id="nickname", @name="nickname" } })
+                @Html.ValidationMessageFor(Model => Model.LastName)
             </div>
 
             <div class="form-group buttons">
                 <button>Register</button>
             </div>
+            
         </form>
     </div>
 </div>

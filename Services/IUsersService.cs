@@ -10,5 +10,6 @@ namespace ToDo_List_with_additions.Services
         public UserModel Edit(UserModel user);
         public UserModel Delete(string id);
         public UserModel Login(string login, string password);
+        public UserModel CheckLogin(string login);
     }
 }

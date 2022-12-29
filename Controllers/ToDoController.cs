@@ -15,11 +15,13 @@ namespace ToDo_List_with_additions.Controllers
 		private readonly ILogger<ToDoController> _logger;
 		private readonly IToDosService _toDosService;
         private readonly IStatisticsService _statisticsService;
-        public ToDoController(ILogger<ToDoController> logger, IToDosService toDosService, IStatisticsService statisticsService)
+        private readonly IUsersService _usersService;
+        public ToDoController(ILogger<ToDoController> logger, IToDosService toDosService, IStatisticsService statisticsService, IUsersService usersService)
 		{
 			_logger = logger;
 			_toDosService = toDosService;
             _statisticsService = statisticsService;
+            _usersService = usersService;
         }
         public ActionResult Index()
         {
@@ -27,10 +29,11 @@ namespace ToDo_List_with_additions.Controllers
 			{
 				return RedirectToAction("Login", "User");
 			}
-			Console.WriteLine("Index ToDo:" + HttpContext.Session.GetString("userId"));
 			var userId = HttpContext.Session.GetString("userId");
             var model = new ToDosModel()
             {
+                UserName = _usersService.GetUser(userId).FirstName + " " + _usersService.GetUser(userId).LastName,
+                UserNickname = _usersService.GetUser(userId).Nickname,
                 ToDosToday = _toDosService.GetToday(userId),
                 ToDosOthers = _toDosService.GetOthers(userId),
                 ToDosDone = _toDosService.GetDone(userId)
@@ -49,13 +52,13 @@ namespace ToDo_List_with_additions.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(DateTime date, string content, int importance, bool done)
         {
-            Console.WriteLine("Create ToDo:" + HttpContext.Session.GetString("userId"));
 			if (HttpContext.Session.GetString("userId") == null)
 			{
 				return RedirectToAction("Login", "User");
 			}
 			if (ModelState.IsValid)
             {
+                
                 var userId = HttpContext.Session.GetString("userId");
                 var toDo = new ToDoModel()
                 {
@@ -65,9 +68,9 @@ namespace ToDo_List_with_additions.Controllers
                     Importance = importance,
                     Done = done
                 };
-				_toDosService.Create(toDo);
-                _statisticsService.IncrementNotDone(userId, toDo.Importance);
-                return RedirectToAction(nameof(Index));
+                 _toDosService.Create(toDo);
+                 _statisticsService.IncrementNotDone(userId, toDo.Importance);
+                 return RedirectToAction(nameof(Index));          
             }
             return View();
         }
@@ -99,7 +102,6 @@ namespace ToDo_List_with_additions.Controllers
 			}
 			if (ModelState.IsValid)
             {
-                Console.WriteLine("Edit ToDo:" + HttpContext.Session.GetString("userId"));
                 var toDoBase = _toDosService.GetToDo(id);
                 var toDo = _toDosService.GetToDo(id);
                 toDo.Date = date.AddHours(1);

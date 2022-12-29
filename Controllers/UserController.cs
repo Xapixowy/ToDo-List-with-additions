@@ -54,13 +54,21 @@ namespace ToDo_List_with_additions.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Register(UserModel user)
         {
-			_usersService.Register(user);
-            _statisticsService.Create(user.Id);
-            return RedirectToAction(nameof(Index));
+           var userValidation = _usersService.CheckLogin(user.Login);
+            if (userValidation == null)
+            {
+                _usersService.Register(user);
+                var userFromDb = _usersService.Login(user.Login, user.Password);
+                HttpContext.Session.SetString("userId", userFromDb.Id);
+                return RedirectToAction("Index", "ToDo");
+            }
+            ViewBag.LoginError = "Login is already taken";
+            return View();
         }
-        public ActionResult Edit(string id)
+        public ActionResult Edit()
         {
-            var user = _usersService.GetUser(id);
+            var userId = HttpContext.Session.GetString("userId");
+            var user = _usersService.GetUser(userId);
             var model = new UserModel()
             {
                 Id = user.Id,
@@ -74,16 +82,15 @@ namespace ToDo_List_with_additions.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(string id, string login, string password, string firstname, string lastname, string nickname)
+        public ActionResult Edit(string firstname, string lastname, string nickname)
         {
-            var user = _usersService.GetUser(id);
-            user.Login = login;
-            user.Password = password;
+            var userId = HttpContext.Session.GetString("userId");
+            var user = _usersService.GetUser(userId);
             user.FirstName = firstname;
             user.LastName = lastname;
             user.Nickname = nickname;
 			_usersService.Edit(user);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index),"ToDo");
         }
         public ActionResult Delete(string id)
         {
