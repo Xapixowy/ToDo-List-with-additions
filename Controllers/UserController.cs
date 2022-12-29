@@ -54,9 +54,16 @@ namespace ToDo_List_with_additions.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Register(UserModel user)
         {
-			_usersService.Register(user);
-            _statisticsService.Create(user.Id);
-            return RedirectToAction(nameof(Index));
+            var userValidation = _usersService.CheckLogin(user.Login);
+            if (userValidation == null)
+            {
+                _usersService.Register(user);
+                var userFromDb = _usersService.Login(user.Login, user.Password);
+                HttpContext.Session.SetString("userId", userFromDb.Id);
+                return RedirectToAction("Index", "ToDo");
+            }
+            ViewBag.LoginError = "Login is already taken";
+            return View();
         }
         public ActionResult Edit()
         {
