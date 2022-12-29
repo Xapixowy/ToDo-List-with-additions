@@ -4,9 +4,10 @@ using ToDo_List_with_additions.Models;
 
 namespace ToDo_List_with_additions.Services
 {
-    public class AdminService
+    public class AdminService : IAdminService
     {
-        private readonly IMongoCollection<StatisticsModel> admin;
+        private readonly IMongoCollection<UserModel> users;
+        private readonly IMongoCollection<ToDoModel> todos;
         public AdminService(IConfiguration config)
         {
             var settings = MongoClientSettings.FromConnectionString(config.GetValue<string>("Database:ConnectionString"));
@@ -18,7 +19,22 @@ namespace ToDo_List_with_additions.Services
             };
             MongoClient client = new MongoClient(settings);
             IMongoDatabase database = client.GetDatabase(config.GetValue<string>("Database:DatabaseName"));
-            admin = database.GetCollection<StatisticsModel>("users");
+            users = database.GetCollection<UserModel>("users");
+            todos = database.GetCollection<ToDoModel>("todos");
+        }
+        public List<UserModel> GetUsers()
+        {
+            return users.Find(User => true).ToList();
+        }
+        
+        public List<ToDoModel> GetToDos(string userId)
+        {
+            return todos.Find(Todo => Todo.UserId == userId).ToList();
+        }
+        
+        public UserModel GetUser(string login)
+        {
+            return users.Find<UserModel>(User => User.Login == login).FirstOrDefault();
         }
     }
 }

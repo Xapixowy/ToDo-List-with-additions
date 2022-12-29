@@ -1,40 +1,45 @@
 ﻿@model ToDo_List_with_additions.Models.UsersModel
 
+
 @{
     ViewData["Title"] = "Index";
 }
 
+@section Buttons {
+
+    <li>
+        <a asp-controller="Admin" asp-action="Register">Register </a>
+    </li>
+}
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Register">Register new User</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">Id</th>
-            <th scope="col">Login</th>
-            <th scope="col">Password</th>
-            <th scope="col">FirstName</th>
-            <th scope="col">LastName</th>
-            <th scope="col">Nickname</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Users) {
-            <tr>
-                <td>@item.Id</td>
-                <td>@item.Login</td>
-                <td>@item.Password</td>
-                <td>@item.FirstName</td>
-                <td>@item.LastName</td>
-                <td>@item.Nickname</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-					<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
+
+<div class="table">
+    <div class="toDosToday">
+        
+        <div class="toDo toDo-headers">
+            <div class="toDo-done">Login</div>
+            <div class="toDo-date">Password</div>
+            <div class="toDo-content">FirstName</div>
+            <div class="toDo-importance">LastName</div>
+            <div class="toDo-actions">Nickname</div>
+            <div class="toDo-actions">Actions</div>
+        </div>
+        @foreach (var item in Model.Users)
+        {
+            <div class="toDo">
+                <div class="toDo-done"> @item.Login</div>
+                <div class="toDo-date">@item.Password</div>
+                <div class="toDo-content">@item.FirstName</div> 
+                <div class="toDo-importance">@item.LastName</div>
+                <div class="toDo-importance">@item.Nickname</div>
+                <div class="toDo-actions">
+                    <a class="done-btn" asp-action="Todos" asp-route-id="@item.Id">Todos</a>
+                    <a class="edit-btn" asp-action="EditUser" asp-route-id="@item.Id">Edit</a>
+                    <a class="delete-btn" asp-action="DeleteUser" asp-route-id="@item.Id">Delete</a>
+                </div>
+            </div>
         }
-    </tbody>
-</table>
+    </div>
+    </div>
+

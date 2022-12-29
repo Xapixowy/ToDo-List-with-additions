@@ -2,9 +2,11 @@ using ToDo_List_with_additions.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddSingleton<IAdminService, AdminService>();
 builder.Services.AddSingleton<IUsersService, UsersService>();
 builder.Services.AddSingleton<IToDosService, ToDosService>();
 builder.Services.AddSingleton<IStatisticsService, StatisticsService>();
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDistributedMemoryCache();
