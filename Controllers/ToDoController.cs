@@ -56,6 +56,7 @@ namespace ToDo_List_with_additions.Controllers
 			}
 			if (ModelState.IsValid)
             {
+                
                 var userId = HttpContext.Session.GetString("userId");
                 var toDo = new ToDoModel()
                 {
@@ -65,9 +66,9 @@ namespace ToDo_List_with_additions.Controllers
                     Importance = importance,
                     Done = done
                 };
-				_toDosService.Create(toDo);
-                _statisticsService.IncrementNotDone(userId, toDo.Importance);
-                return RedirectToAction(nameof(Index));
+                 _toDosService.Create(toDo);
+                 _statisticsService.IncrementNotDone(userId, toDo.Importance);
+                 return RedirectToAction(nameof(Index));          
             }
             return View();
         }
