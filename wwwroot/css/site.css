@@ -153,7 +153,7 @@ main section.second {
 }
 
 main section.second > div.wrapper {
-    padding: 0 50px;
+    padding: 50px 50px;
     color: #fff;
     display: flex;
 }
@@ -236,15 +236,15 @@ main h1 {
     text-align: center;
 }
 
-div:where(.login, .register, .toDo-list, .toDos-create) > div.wrapper {
+div:where(.login, .register, .edit-profile, .toDo-list, .toDos-create, .toDos-edit) > div.wrapper {
     padding: 50px 15px;
 }
 
-div:where(.login, .register, .toDo-list, .toDos-create) h1 {
+div:where(.login, .register, .edit-profile, .toDo-list, .toDos-create, .toDos-edit) h1 {
     margin-bottom: 25px;
 }
 
-div:where(.login, .register, .toDo-list, .toDos-create) form {
+div:where(.login, .register, .edit-profile, .toDo-list, .toDos-create, .toDos-edit) form {
     margin: 0 auto;
 }
 
@@ -394,7 +394,6 @@ div.toDosDone {
     background-color: #fff;
     transform: translateY(100vh);
     transition: transform 0.5s;
-    overflow-y: scroll;
 }
 
 div.toDosDone.show {
@@ -402,8 +401,9 @@ div.toDosDone.show {
 }
 
 div.toDosDone > div.wrapper {
-    margin: 70px 0;
+    margin: 70px auto;
     padding: 50px 15px;
+    overflow-y: scroll;
 }
 
 i.ti.ti-square-check {
