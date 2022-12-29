@@ -31,8 +31,14 @@ namespace ToDo_List_with_additions.Services
         }
         public UserModel Register(UserModel user)
         {
+            
             Users.InsertOne(user);
             
+            return user;
+        }
+        public UserModel CheckLogin(string login)
+        {
+            UserModel user = Users.Find<UserModel>(User => User.Login == login).FirstOrDefault();
             return user;
         }
         public UserModel Edit(UserModel user)
