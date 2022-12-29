@@ -1,0 +1,44 @@
+﻿@model ToDo_List_with_additions.Models.StatisticsModel
+@{
+    ViewData["Statistics"] = "Statistics";
+}
+
+<h1>Statistics</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col"></th>
+            <th scope="col">Done</th>
+            <th scope="col">NotDone</th>
+            <th scope="col">Postponed</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Low</td>
+            <td>@Model.Done["0"]</td>
+            <td>@Model.NotDone["0"]</td>
+            <td>@Model.Postponed["0"]</td>
+        </tr>
+        <tr>
+            <td>Medium</td>
+            <td>@Model.Done["1"]</td>
+            <td>@Model.NotDone["1"]</td>
+            <td>@Model.Postponed["1"]</td>
+        </tr>
+        <tr>
+            <td>High</td>
+            <td>@Model.Done["2"]</td>
+            <td>@Model.NotDone["2"]</td>
+            <td>@Model.Postponed["2"]</td>
+        </tr>
+        <tr>
+            <td>Criticla</td>
+            <td>@Model.Done["3"]</td>
+            <td>@Model.NotDone["3"]</td>
+            <td>@Model.Postponed["3"]</td>
+        </tr>
+    </tbody>
+    
+</table>
