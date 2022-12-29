@@ -20,11 +20,10 @@ namespace ToDo_List_with_additions.Controllers
             _toDosService = toDosService;
             _statisticsService = statisticsService;
         }
-
-
-        public ActionResult Index()
+        public IActionResult Index()
         {
-            var users = _adminService.GetUsers();
+			HttpContext.Session.Remove("adminUserId");
+			var users = _adminService.GetUsers();
             var model = new UsersModel
             {
                 Users = users
@@ -32,113 +31,113 @@ namespace ToDo_List_with_additions.Controllers
             return View(model);
 
         }
-
-    
-
-        public ActionResult Todos(string id)
+        public IActionResult ToDos(string id, bool fromUsers)
         {
-            var todos = _adminService.GetToDos(id);
+            Console.WriteLine("fromUsers: " + fromUsers);
+            if (fromUsers) HttpContext.Session.SetString("adminUserId", id);
+            var userId = HttpContext.Session.GetString("adminUserId");
+            Console.WriteLine("userId: " + userId);
+            var todos = _adminService.GetToDos(userId);
             var model = new ToDosAdminModel
             {
-                Todos = todos,
-                userId = id
+                UserName = _usersService.GetUser(userId).FirstName + " " + _usersService.GetUser(userId).LastName,
+                UserNickname = _usersService.GetUser(userId).Nickname,
+                ToDos = todos,
             };
             return View(model);
         }
-
-        public ActionResult Create(string id)
-        {
-            var model = new ToDoModel
-            {
-                UserId = id
-            };
-            return View(model);
-        }
+		public IActionResult UserCreate()
+		{
+			return View();
+		}
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public IActionResult UserCreate(UserModel user)
+		{
+			var userValidation = _usersService.CheckLogin(user.Login);
+			if (userValidation == null)
+			{
+				_usersService.Register(user);
+				_statisticsService.Create(user.Id);
+				var userFromDb = _usersService.Login(user.Login, user.Password);
+				HttpContext.Session.SetString("userId", userFromDb.Id);
+				return RedirectToAction(nameof(Index));
+			}
+			ViewBag.LoginError = "Login is already taken";
+			return View();
+		}
+		public IActionResult UserEdit(string id)
+		{
+            HttpContext.Session.SetString("adminUserId", id);
+            var userId = HttpContext.Session.GetString("adminUserId");
+            var user = _usersService.GetUser(userId);
+			var model = new UserModel()
+			{
+				Id = user.Id,
+				Login = user.Login,
+				Password = user.Password,
+				FirstName = user.FirstName,
+				LastName = user.LastName,
+				Nickname = user.Nickname
+			};
+			return View(model);
+		}
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public IActionResult UserEdit(string firstName, string lastName, string nickname, string login, string password)
+		{
+            var id = HttpContext.Session.GetString("adminUserId");
+            var user = _usersService.GetUser(id);
+			user.FirstName = firstName;
+			user.LastName = lastName;
+			user.Nickname = nickname;
+			user.Login = login;
+			user.Password = password;
+			_usersService.Edit(user);
+			return RedirectToAction(nameof(Index));
+		}
+		public IActionResult UserDelete(string id, bool fromUsers)
+		{
+			_usersService.Delete(id);
+			return RedirectToAction(nameof(Index));
+		}
         
+		public IActionResult ToDoCreate()
+        {
+            return View();
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(string userId, DateTime date, string content, int importance, bool done)
+        public IActionResult ToDoCreate(DateTime date, string content, int importance)
         {
-         
             if (ModelState.IsValid)
             {
-
-                
+                var userId = HttpContext.Session.GetString("adminUserId");
                 var toDo = new ToDoModel()
                 {
+                    UserId = userId,
                     Date = date.AddHours(1),
                     Content = content,
                     Importance = importance,
-                    Done = done
+                    Done = false
                 };
                 
                 _toDosService.Create(toDo);
                 _statisticsService.IncrementNotDone(userId, importance);
-                return RedirectToAction(nameof(Todos));
+                return RedirectToAction(nameof(ToDos));
             }
             return View();
         }
-
-        public IActionResult Register()
+        public IActionResult ToDoDone(string id)
         {
-            return View();
+            var toDo = _toDosService.GetToDo(id);
+            _toDosService.Done(id);
+            _statisticsService.IncrementDone(HttpContext.Session.GetString("adminUserId"), toDo.Importance);
+            _statisticsService.DecrementNotDone(HttpContext.Session.GetString("adminUserId"), toDo.Importance);
+            return RedirectToAction(nameof(ToDos));
         }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Register(UserModel user)
+        public IActionResult ToDoEdit(string id)
         {
-            var userValidation = _usersService.CheckLogin(user.Login);
-            if (userValidation == null)
-            {
-                _usersService.Register(user);
-                _statisticsService.Create(user.Id);
-                var userFromDb = _usersService.Login(user.Login, user.Password);
-                HttpContext.Session.SetString("userId", userFromDb.Id);
-                return RedirectToAction(nameof(Index));
-            }
-            ViewBag.LoginError = "Login is already taken";
-            return View();
-        }
-        public IActionResult EditUser(string id)
-        {
-            
-            var user = _usersService.GetUser(id);
-            
-            var model = new UserModel()
-            {
-                Id = user.Id,
-                Login = user.Login,
-                Password = user.Password,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Nickname = user.Nickname
-            };
-            return View(model);
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult EditUser(string id, string firstName, string lastName, string nickname, string login, string password)
-        {
-          
-            var user = _usersService.GetUser(id);
-            user.FirstName = firstName;
-            user.LastName = lastName;
-            user.Nickname = nickname;
-            user.Login= login;
-            user.Password = password;
-            _usersService.Edit(user);
-            return RedirectToAction(nameof(Index));
-        }
-        public ActionResult DeleteUser(string id)
-        {
-
-            _usersService.Delete(id);
-            return RedirectToAction(nameof(Index));
-        }
-
-        public ActionResult EditToDo(string id)
-        {
-        
             var toDo = _toDosService.GetToDo(id);
             var model = new ToDoModel()
             {
@@ -153,9 +152,8 @@ namespace ToDo_List_with_additions.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditToDo(string id, DateTime date, string content, int importance, bool done)
+        public IActionResult ToDoEdit(string id, DateTime date, string content, int importance, bool done)
         {
-        
             if (ModelState.IsValid)
             {
                 var toDoBase = _toDosService.GetToDo(id);
@@ -165,22 +163,54 @@ namespace ToDo_List_with_additions.Controllers
                 toDo.Done = done;
                 toDo.Importance = importance;
                 _toDosService.Edit(toDo);
-
                 if (toDoBase.Date != date)
                 {
-                    _statisticsService.IncrementPostponed(HttpContext.Session.GetString("userId"), toDo.Importance);
+                    _statisticsService.IncrementPostponed(HttpContext.Session.GetString("adminUserId"), toDo.Importance);
 
                 }
-
-                return RedirectToAction(nameof(Todos));
+                return RedirectToAction(nameof(ToDos));
             }
             return View();
         }
-        public ActionResult DeleteToDo(string id)
+        public IActionResult ToDoDelete(string id)
         {
-          
             _toDosService.Delete(id);
-            return RedirectToAction(nameof(Todos));
+            return RedirectToAction(nameof(ToDos));
+        }
+        public IActionResult ToDoUserEdit(string id)
+        {
+            var userId = HttpContext.Session.GetString("adminUserId");
+            var user = _usersService.GetUser(userId);
+            var model = new UserModel()
+            {
+                Id = user.Id,
+                Login = user.Login,
+                Password = user.Password,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Nickname = user.Nickname
+            };
+            return View(model);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ToDoUserEdit(string firstName, string lastName, string nickname, string login, string password)
+        {
+            var id = HttpContext.Session.GetString("adminUserId");
+            var user = _usersService.GetUser(id);
+            user.FirstName = firstName;
+            user.LastName = lastName;
+            user.Nickname = nickname;
+            user.Login = login;
+            user.Password = password;
+            _usersService.Edit(user);
+            return RedirectToAction(nameof(ToDos));
+        }
+        public IActionResult ToDoUserDelete()
+        {
+            var id = HttpContext.Session.GetString("adminUserId");
+            _usersService.Delete(id);
+            return RedirectToAction(nameof(Index));
         }
     }
 }

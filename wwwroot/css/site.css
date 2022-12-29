@@ -3,6 +3,7 @@
     --turquoise: #159a9c;
     --navy: #002333;
     --mint: #deefe7;
+    --admin: #801700;
 }
 
 body {
@@ -236,11 +237,11 @@ main h1 {
     text-align: center;
 }
 
-div:where(.login, .register, .edit-profile, .toDo-list, .toDos-create, .toDos-edit, .statistics) > div.wrapper {
+div:where(.login, .register, .edit-profile, .toDo-list, .users, .toDos-create, .toDos-edit, .statistics) > div.wrapper {
     padding: 50px 15px;
 }
 
-div:where(.login, .register, .edit-profile, .toDo-list, .toDos-create, .toDos-edit, .statistics) h1 {
+div:where(.login, .register, .edit-profile, .toDo-list, .users, .toDos-create, .toDos-edit, .statistics) h1 {
     margin-bottom: 25px;
 }
 
@@ -248,12 +249,12 @@ div:where(.login, .register, .edit-profile, .toDo-list, .toDos-create, .toDos-ed
     margin: 0 auto;
 }
 
-div.toDo-list div.table {
+div:where(.toDo-list, .users) div.table, {
     display: flex;
     flex-direction: column;
 }
 
-div.toDo-list div.table > div:where(.toDosToday, .toDosOthers) {
+div:where(.toDo-list, .users) div.table > div:where(.toDosToday, .toDosOthers, .user) {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -263,24 +264,32 @@ div.toDo-list div.table h2,
 div.toDosDone h2 {
     width: 100%;
     font-size: 2em;
-    margin-bottom: 25px;
+    margin: 25px 0;
 }
 
 div.toDo-list div.table div.toDo,
-div.toDosDone div.toDo {
+div.toDosDone div.toDo,
+div.users div.table div.user {
     width: 100%;
     display: flex;
     align-items: center;
+    justify-content: space-around;
+}
+
+div.users div.table div.user > div {
+    width: calc(100% / 7);
 }
 
 div.toDo-list div.table div.toDo.toDo-headers,
-div.toDosDone div.toDo.toDo-headers {
+div.toDosDone div.toDo.toDo-headers,
+div.users div.table div.users-headers {
     font-weight: 700;
 }
 
 div.toDo-list div.table div.toDo > div,
-div.toDosDone div.wrapper > div {
-    margin: 10px 0;
+div.toDosDone div.wrapper > div,
+div.users div.table div.user > div {
+    margin: 15px 0;
 }
 
 div.toDo-list div.table div.toDo > div.toDo-done,
@@ -310,13 +319,15 @@ div.toDosDone div.wrapper div.toDo > div.toDo-importance {
 }
 
 div.toDo-list div.table div.toDo > div.toDo-actions,
-div.toDosDone div.wrapper div.toDo > div.toDo-actions {
+div.toDosDone div.wrapper div.toDo > div.toDo-actions,
+div.users div.table div.user > div.user-actions {
     text-align: center;
     width: 250px;
 }
 
 div.toDo-list div.table div.toDo > div.toDo-actions > a,
-div.toDosDone div.wrapper div.toDo > div.toDo-actions > a {
+div.toDosDone div.wrapper div.toDo > div.toDo-actions > a,
+div.users div.table div.user > div.user-actions > a {
     text-decoration: none;
     color: #000;
     margin: 0 5px;
@@ -328,12 +339,14 @@ div.toDosDone div.wrapper div.toDo > div.toDo-actions > a {
 }
 
 div.toDo-list div.table div.toDo > div.toDo-actions > a:hover,
-div.toDosDone div.wrapper div.toDo > div.toDo-actions > a:hover {
+div.toDosDone div.wrapper div.toDo > div.toDo-actions > a:hover,
+div.users div.table div.user > div.user-actions > a:hover {
     opacity: 0.8;
 }
 
 div.toDo-list div.table div.toDo > div.toDo-actions > a:active,
-div.toDosDone div.wrapper div.toDo > div.toDo-actions > a:active {
+div.toDosDone div.wrapper div.toDo > div.toDo-actions > a:active,
+div.users div.table div.user > div.user-actions > a:active {
     transform: scale(1.05);
 }
 
@@ -343,14 +356,21 @@ div.toDosDone div.wrapper div.toDo > div.toDo-actions > a.done-btn {
     color: #fff;
 }
 
+div.users div.table div.user > div.user-actions > a.todos-btn {
+    background-color: var(--turquoise);
+    color: #fff;
+}
+
 div.toDo-list div.table div.toDo > div.toDo-actions > a.edit-btn,
-div.toDosDone div.wrapper div.toDo > div.toDo-actions > a.edit-btn {
+div.toDosDone div.wrapper div.toDo > div.toDo-actions > a.edit-btn,
+div.users div.table div.user > div.user-actions > a.edit-btn {
     background-color: #ffca2c;
     color: #000;
 }
 
 div.toDo-list div.table div.toDo > div.toDo-actions > a.delete-btn,
-div.toDosDone div.wrapper div.toDo > div.toDo-actions > a.delete-btn {
+div.toDosDone div.wrapper div.toDo > div.toDo-actions > a.delete-btn,
+div.users div.table div.user > div.user-actions > a.delete-btn {
     background-color: #c73131;
     color: #fff;
 }

@@ -2,44 +2,55 @@
 
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Admin Panel";
 }
 
 @section Buttons {
-
     <li>
-        <a asp-controller="Admin" asp-action="Register">Register </a>
+        <a asp-controller="Admin" asp-action="UserCreate">Create user</a>
     </li>
 }
-<h1>Index</h1>
 
+@section Links {
+    <li>
+        <a asp-controller="Admin" asp-action="Index">Users</a>
+    </li>
+}
 
-<div class="table">
-    <div class="toDosToday">
-        
-        <div class="toDo toDo-headers">
-            <div class="toDo-done">Login</div>
-            <div class="toDo-date">Password</div>
-            <div class="toDo-content">FirstName</div>
-            <div class="toDo-importance">LastName</div>
-            <div class="toDo-actions">Nickname</div>
-            <div class="toDo-actions">Actions</div>
-        </div>
-        @foreach (var item in Model.Users)
-        {
-            <div class="toDo">
-                <div class="toDo-done"> @item.Login</div>
-                <div class="toDo-date">@item.Password</div>
-                <div class="toDo-content">@item.FirstName</div> 
-                <div class="toDo-importance">@item.LastName</div>
-                <div class="toDo-importance">@item.Nickname</div>
-                <div class="toDo-actions">
-                    <a class="done-btn" asp-action="Todos" asp-route-id="@item.Id">Todos</a>
-                    <a class="edit-btn" asp-action="EditUser" asp-route-id="@item.Id">Edit</a>
-                    <a class="delete-btn" asp-action="DeleteUser" asp-route-id="@item.Id">Delete</a>
-                </div>
+@section Style {
+    header {
+        background-color: var(--admin);
+    }
+}
+
+<div class="users">
+    <div class="wrapper">
+		<h1>Users</h1>
+        <div class="table">
+            <div class="user users-headers">
+                <div class="user-login">Login</div>
+                <div class="user-password">Password</div>
+                <div class="user-firstname">First name</div>
+                <div class="user-lastname">Last name</div>
+                <div class="user-nickname">Nickname</div>
+                <div class="user-actions">Actions</div>
             </div>
-        }
+            @foreach (var item in Model.Users)
+            {
+                <div class="user">
+                    <div class="user-login">@item.Login</div>
+                    <div class="user-password">@item.Password</div>
+                    <div class="user-firstname">@item.FirstName</div>
+                    <div class="user-lastname">@item.LastName</div>
+                    <div class="user-nickname">@item.Nickname</div>
+                    <div class="user-actions">
+                        <a class="todos-btn" asp-action="ToDos" asp-route-id="@item.Id" asp-route-fromUsers="true">Todos</a>
+                        <a class="edit-btn" asp-action="UserEdit" asp-route-id="@item.Id">Edit</a>
+                        <a class="delete-btn" asp-action="UserDelete" asp-route-id="@item.Id">Delete</a>
+                    </div>
+				</div>
+            }
+        </div>
     </div>
-    </div>
+</div>
 

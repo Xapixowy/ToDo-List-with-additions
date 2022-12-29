@@ -18,17 +18,17 @@ namespace ToDo_List_with_additions.Controllers
             _statisticsService = statisticsService;
         }
 
-        public ActionResult Index()
+        public IActionResult Index()
         {
             return View("Login");
         }
-        public ActionResult Login()
+        public IActionResult Login()
         {
             return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(UserModel user)
+        public IActionResult Login(UserModel user)
         {
             var userFromDb = _usersService.Login(user.Login, user.Password);
             if (userFromDb != null)
@@ -40,19 +40,19 @@ namespace ToDo_List_with_additions.Controllers
             return View();
         }
 
-        public ActionResult Logout()
+        public IActionResult Logout()
         {
             HttpContext.Session.Remove("userId");
             return RedirectToAction(nameof(Login));
         }
      
-        public ActionResult Register()
+        public IActionResult Register()
         {
             return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(UserModel user)
+        public IActionResult Register(UserModel user)
         {
             var userValidation = _usersService.CheckLogin(user.Login);
             if (userValidation == null)
@@ -66,7 +66,7 @@ namespace ToDo_List_with_additions.Controllers
             ViewBag.LoginError = "Login is already taken";
             return View();
         }
-        public ActionResult Edit()
+        public IActionResult Edit()
         {
             var userId = HttpContext.Session.GetString("userId");
             var user = _usersService.GetUser(userId);
@@ -83,7 +83,7 @@ namespace ToDo_List_with_additions.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(string firstname, string lastname, string nickname)
+        public IActionResult Edit(string firstname, string lastname, string nickname)
         {
             var userId = HttpContext.Session.GetString("userId");
             var user = _usersService.GetUser(userId);
@@ -93,7 +93,7 @@ namespace ToDo_List_with_additions.Controllers
 			_usersService.Edit(user);
             return RedirectToAction(nameof(Index),"ToDo");
         }
-        public ActionResult Delete(string id)
+        public IActionResult Delete(string id)
         {
 			_usersService.Delete(id);
             return RedirectToAction(nameof(Index));

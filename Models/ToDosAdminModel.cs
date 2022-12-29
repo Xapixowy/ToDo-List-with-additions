@@ -2,7 +2,8 @@
 {
     public class ToDosAdminModel
     {
-        public List<ToDoModel> Todos {get; set;}
-        public string userId { get; set; }
+        public string UserName { get; set; }
+        public string UserNickname { get; set; }
+        public List<ToDoModel> ToDos {get; set;}
     }
 }

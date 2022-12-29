@@ -23,7 +23,7 @@ namespace ToDo_List_with_additions.Controllers
             _statisticsService = statisticsService;
             _usersService = usersService;
         }
-        public ActionResult Index()
+        public IActionResult Index()
         {
 			if (HttpContext.Session.GetString("userId") == null)
 			{
@@ -40,7 +40,7 @@ namespace ToDo_List_with_additions.Controllers
             };
             return View(model);
         }
-        public ActionResult Create()
+        public IActionResult Create()
         {
             if (HttpContext.Session.GetString("userId") == null)
             {
@@ -50,7 +50,7 @@ namespace ToDo_List_with_additions.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(DateTime date, string content, int importance, bool done)
+        public IActionResult Create(DateTime date, string content, int importance, bool done)
         {
 			if (HttpContext.Session.GetString("userId") == null)
 			{
@@ -74,7 +74,7 @@ namespace ToDo_List_with_additions.Controllers
             }
             return View();
         }
-        public ActionResult Edit(string id)
+        public IActionResult Edit(string id)
         {
 			if (HttpContext.Session.GetString("userId") == null)
 			{
@@ -94,7 +94,7 @@ namespace ToDo_List_with_additions.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(string id, DateTime date, string content, int importance, bool done)
+        public IActionResult Edit(string id, DateTime date, string content, int importance, bool done)
         {
 			if (HttpContext.Session.GetString("userId") == null)
 			{
@@ -120,7 +120,7 @@ namespace ToDo_List_with_additions.Controllers
             }
             return View();
         }
-        public ActionResult Delete(string id)
+        public IActionResult Delete(string id)
         {
 			if (HttpContext.Session.GetString("userId") == null)
 			{
@@ -130,7 +130,7 @@ namespace ToDo_List_with_additions.Controllers
             return RedirectToAction(nameof(Index));
 		}
 
-        public ActionResult Done(string id)
+        public IActionResult Done(string id)
         {
             if (HttpContext.Session.GetString("userId") == null)
             {

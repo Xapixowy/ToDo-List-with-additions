@@ -4,18 +4,42 @@
     ViewData["Title"] = "Edit profile";
 }
 
+@section Buttons {
+        <li>
+            <a asp-controller="Admin" asp-action="UserCreate">Create user</a>
+        </li>
+}
 
+@section Links {
+        <li>
+            <a asp-controller="Admin" asp-action="Index">Users</a>
+        </li>
+}
+
+@section Style {
+    header {
+        background-color: var(--admin);
+    }
+}
 
 <div class="edit-profile">
     <div class="wrapper">
         <h1>Edit profile</h1>
-        <form method="post" asp-controller="Admin" asp-action="EditUser">
+        <form method="post" asp-controller="Admin" asp-action="UserEdit">
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true)
             <div class="form-group">
-                @Html.EditorFor(Model => Model.Id, new { htmlAttributes = new { @id="id", @name="id", @required="required", @readonly="readonly" } })
-                
+                <label for="nickname">Login</label>
+                @Html.EditorFor(Model => Model.Login, new { htmlAttributes = new { @id="login", @name="login" } })
+                @Html.ValidationMessageFor(Model => Model.LastName)
             </div>
+            
+            <div class="form-group">
+                <label for="nickname">Password</label>
+                @Html.EditorFor(Model => Model.Password, new { htmlAttributes = new { @id="password", @name="password" } })
+                @Html.ValidationMessageFor(Model => Model.Password)
+            </div>
+            
             <div class="form-group">
                 <label for="firstName">First Name</label>
                 @Html.EditorFor(Model => Model.FirstName, new { htmlAttributes = new { @id="firstName", @name="firstName", @required="required" } })
@@ -32,16 +56,6 @@
                 <label for="nickname">Nickname</label>
                 @Html.EditorFor(Model => Model.Nickname, new { htmlAttributes = new { @id="nickname", @name="nickname" } })
                 @Html.ValidationMessageFor(Model => Model.LastName)
-            </div>
-            <div class="form-group">
-                <label for="nickname">Login</label>
-                @Html.EditorFor(Model => Model.Login, new { htmlAttributes = new { @id="login", @name="login" } })
-                @Html.ValidationMessageFor(Model => Model.LastName)
-            </div>
-            <div class="form-group">
-                <label for="nickname">Password</label>
-                @Html.EditorFor(Model => Model.Password, new { htmlAttributes = new { @id="password", @name="password" } })
-                @Html.ValidationMessageFor(Model => Model.Password)
             </div>
 
             <div class="form-group buttons">

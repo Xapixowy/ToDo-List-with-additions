@@ -1,15 +1,25 @@
 ﻿@model ToDo_List_with_additions.Models.UserModel
 
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "Create user";
 }
 
+@section Links {
+    <li>
+        <a asp-controller="Admin" asp-action="Index">Users</a>
+    </li>
+}
 
+@section Style {
+    header {
+        background-color: var(--admin);
+    }
+}
 
 <div class="register">
     <div class="wrapper">
-        <h1>Register</h1>
-        <form method="post" asp-action="Register">
+        <h1>Create user</h1>
+        <form method="post" asp-action="UserCreate">
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true)
 

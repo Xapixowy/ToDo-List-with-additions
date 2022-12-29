@@ -1,14 +1,37 @@
 ﻿@model ToDo_List_with_additions.Models.ToDoModel
 
 @{
-    ViewData["Title"] = "ToDo Edit";
+    ViewData["Title"] = "ToDo Create";
 }
 
+@section Buttons {
+     <li>
+        <a asp-controller="Admin" asp-action="ToDoUserEdit">Edit User</a>
+    </li>
+    <li>
+        <a asp-controller="Admin" asp-action="ToDoUserDelete">Delete User</a>
+    </li>
+}
 
-<div class="toDos-edit">
+@section Links {
+    <li>
+        <a asp-controller="Admin" asp-action="Index">Users</a>
+    </li>
+    <li>
+        <a asp-controller="Admin" asp-action="ToDos">ToDo List</a>
+    </li>
+}
+
+@section Style {
+    header {
+        background-color: var(--admin);
+    }
+}
+
+<div class="toDos-create">
     <div class="wrapper">
-        <h1>ToDo Edit</h1>
-        <form method="post" asp-action="EditToDo">
+        <h1>ToDo Create</h1>
+        <form method="post" asp-action="ToDoCreate">
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true)
 
@@ -35,20 +58,19 @@
             </div>
 
             <div class="form-group buttons">
-                <button>Edit</button>
+                <button>Create</button>
             </div>
         </form>
     </div>
 </div>
 
 <script>
-    const select = document.getElementById("importance");
-    select.value = "@Model.Importance";
+    const dateTimeInputs = document.querySelectorAll('input[type="datetime-local"]');
+    const today = new Date().toISOString().split('T')[0];
+    dateTimeInputs.forEach(input => {
+        input.setAttribute('min', today);
+    });
 </script>
-
-<script src="/Scripts/jquery.unobtrusive-ajax.js"></script>
-<script src="/Scripts/jquery.validate.js"></script>
-<script src="/Scripts/jquery.validate.unobtrusive.js"></script>
 
 @section Scripts {
     @{

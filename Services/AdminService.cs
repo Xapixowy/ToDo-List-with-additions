@@ -31,10 +31,5 @@ namespace ToDo_List_with_additions.Services
         {
             return todos.Find(Todo => Todo.UserId == userId).ToList();
         }
-        
-        public UserModel GetUser(string login)
-        {
-            return users.Find<UserModel>(User => User.Login == login).FirstOrDefault();
-        }
     }
 }
