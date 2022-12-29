@@ -54,10 +54,11 @@ namespace ToDo_List_with_additions.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Register(UserModel user)
         {
-           var userValidation = _usersService.CheckLogin(user.Login);
+            var userValidation = _usersService.CheckLogin(user.Login);
             if (userValidation == null)
             {
                 _usersService.Register(user);
+                _statisticsService.Create(user.Id);
                 var userFromDb = _usersService.Login(user.Login, user.Password);
                 HttpContext.Session.SetString("userId", userFromDb.Id);
                 return RedirectToAction("Index", "ToDo");

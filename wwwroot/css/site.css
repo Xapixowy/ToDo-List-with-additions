@@ -236,15 +236,15 @@ main h1 {
     text-align: center;
 }
 
-div:where(.login, .register, .edit-profile, .toDo-list, .toDos-create, .toDos-edit) > div.wrapper {
+div:where(.login, .register, .edit-profile, .toDo-list, .toDos-create, .toDos-edit, .statistics) > div.wrapper {
     padding: 50px 15px;
 }
 
-div:where(.login, .register, .edit-profile, .toDo-list, .toDos-create, .toDos-edit) h1 {
+div:where(.login, .register, .edit-profile, .toDo-list, .toDos-create, .toDos-edit, .statistics) h1 {
     margin-bottom: 25px;
 }
 
-div:where(.login, .register, .edit-profile, .toDo-list, .toDos-create, .toDos-edit) form {
+div:where(.login, .register, .edit-profile, .toDo-list, .toDos-create, .toDos-edit, .statistics) form {
     margin: 0 auto;
 }
 
@@ -404,6 +404,25 @@ div.toDosDone > div.wrapper {
     margin: 70px auto;
     padding: 50px 15px;
     overflow-y: scroll;
+}
+
+div.statistics > div.wrapper > div.table {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+div.statistics > div.wrapper h2 {
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+}
+
+div.statistics > div.wrapper div.graph {
+    margin: 25px auto 25px auto;
+    width: min(475px);
 }
 
 i.ti.ti-square-check {

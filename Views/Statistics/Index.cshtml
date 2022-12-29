@@ -23,52 +23,106 @@
     <div class="wrapper">
         <h1>Statistics</h1>
         <div class="table">
-            <div></div>
+            <div class="graph">
+                <h2>ToDos with low importance</h2>
+                <canvas id="importance-low"></canvas>
+            </div>
+            
+            <div class="graph">
+                <h2>ToDos with medium importance</h2>
+                <canvas id="importance-medium"></canvas>
+            </div>
+            
+            <div class="graph">
+                <h2>ToDos with high importance</h2>
+                <canvas id="importance-high"></canvas>
+            </div>
+            
+            <div class="graph">
+                <h2>ToDos with critical importance</h2>
+                <canvas id="importance-critical"></canvas>
+            </div>
         </div>
     </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.1.1/chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    
+    (async function () {
+        const data = {
+            low: [
+                @Model.Done["0"],
+	            @Model.NotDone["0"],
+                @Model.Postponed["0"]
+            ],
+			medium: [
+	            @Model.Done["1"],
+	            @Model.NotDone["1"],
+	            @Model.Postponed["1"]
+			],
+			high: [
+	            @Model.Done["2"],
+	            @Model.NotDone["2"],
+	            @Model.Postponed["2"]
+            ],
+			critical: [
+	            @Model.Done["3"],
+	            @Model.NotDone["3"],
+	            @Model.Postponed["3"]
+			]
+        };
+
+        new Chart(document.getElementById('importance-low'), {
+            type: 'doughnut',
+            data: {
+                labels: ['ToDos Done', 'ToDos Not Done', 'ToDos Postponed'],
+                datasets: [
+                    {
+                        label: ' Low importance',
+                        data: data.low,
+                        backgroundColor: ['#228b22', '#c73131', '#ffca2c'],
+                    },
+                ],
+            },
+        });
+        new Chart(document.getElementById('importance-medium'), {
+            type: 'doughnut',
+            data: {
+                labels: ['ToDos Done', 'ToDos Not Done', 'ToDos Postponed'],
+                datasets: [
+                    {
+                        label: ' Medium importance',
+                        data: data.medium,
+                        backgroundColor: ['#228b22', '#c73131', '#ffca2c'],
+                    },
+                ],
+            },
+        });
+        new Chart(document.getElementById('importance-high'), {
+            type: 'doughnut',
+            data: {
+                labels: ['ToDos Done', 'ToDos Not Done', 'ToDos Postponed'],
+                datasets: [
+                    {
+                        label: ' High importance',
+                        data: data.high,
+                        backgroundColor: ['#228b22', '#c73131', '#ffca2c'],
+                    },
+                ],
+            },
+        });
+        new Chart(document.getElementById('importance-critical'), {
+            type: 'doughnut',
+            data: {
+                labels: ['ToDos Done', 'ToDos Not Done', 'ToDos Postponed'],
+                datasets: [
+                    {
+                        label: ' Critical importance',
+                        data: data.critical,
+                        backgroundColor: ['#228b22', '#c73131', '#ffca2c'],
+                    },
+                ],
+            },
+        });
+    })();
 </script>
-
-
-
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col"></th>
-            <th scope="col">Done</th>
-            <th scope="col">NotDone</th>
-            <th scope="col">Postponed</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td scope="col">Low</td>
-            <td scope="col">@Model.Done["0"]</td>
-            <td scope="col">@Model.NotDone["0"]</td>
-            <td scope="col">@Model.Postponed["0"]</td>
-        </tr>
-        <tr>
-            <td scope="col">Medium</td>
-            <td scope="col">@Model.Done["1"]</td>
-            <td scope="col">@Model.NotDone["1"]</td>
-            <td scope="col">@Model.Postponed["1"]</td>
-        </tr>
-        <tr>
-            <td scope="col">High</td>
-            <td scope="col">@Model.Done["2"]</td>
-            <td scope="col">@Model.NotDone["2"]</td>
-            <td scope="col">@Model.Postponed["2"]</td>
-        </tr>
-        <tr>
-            <td scope="col">Criticla</td>
-            <td scope="col">@Model.Done["3"]</td>
-            <td scope="col">@Model.NotDone["3"]</td>
-            <td scope="col">@Model.Postponed["3"]</td>
-        </tr>
-    </tbody>
-    
-</table>
