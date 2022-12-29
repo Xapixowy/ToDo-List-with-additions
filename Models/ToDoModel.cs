@@ -17,9 +17,7 @@ namespace ToDo_List_with_additions.Models
         
         [BsonElement("date")]
         [DataType(DataType.DateTime)]
-        [Display(Name = "Date")]
-        [Required]
-        [ValidDate(ErrorMessage = "Date must be in the future")]
+        [Required(ErrorMessage = "Date is required")]
         public DateTime Date { get; set; }
         
         [BsonElement("content")]

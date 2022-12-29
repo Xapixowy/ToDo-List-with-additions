@@ -53,10 +53,18 @@
             
             <div class="form-group buttons">
                 <button>Create</button>
-            </div>
+            </div>            
         </form>
     </div>
 </div>
+
+<script>
+	const dateTimeInputs = document.querySelectorAll('input[type="datetime-local"]');
+    const today = new Date().toISOString().split('T')[0];
+	dateTimeInputs.forEach(input => {
+        input.setAttribute('min', today);
+	});
+</script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

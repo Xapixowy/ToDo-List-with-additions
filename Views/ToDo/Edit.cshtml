@@ -61,6 +61,12 @@
 <script>
 	const select = document.getElementById("importance");
 	select.value = "@Model.Importance";
+    
+    const dateTimeInputs = document.querySelectorAll('input[type="datetime-local"]');
+    const today = new Date().toISOString().split('T')[0];
+	dateTimeInputs.forEach(input => {
+        input.setAttribute('min', today);
+	});
 </script>
 
 <script src="/Scripts/jquery.unobtrusive-ajax.js"></script>
