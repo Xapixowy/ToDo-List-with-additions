@@ -9,6 +9,9 @@
         <a class="toDo-history">Show history</a>
     </li>
     <li>
+        <a asp-controller="User" asp-action="Edit">Edit profile</a>
+    </li>
+    <li>
         <a asp-controller="User" asp-action="Logout">Logout</a>
     </li>
     <li>
@@ -27,7 +30,14 @@
 
 <div class="toDo-list">
     <div class="wrapper">
-        <h1>ToDo List</h1>
+        @if (Model.UserNickname != null)
+		{
+			<h1>@Model.UserNickname's ToDo List</h1>
+		}
+		else
+		{
+			<h1>@Model.UserName's ToDo List</h1>
+		}
         <div class="table">
             <div class="toDosToday">
                 <h2>Today <span class="count">(@Model.ToDosToday.Count)</span></h2>

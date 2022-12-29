@@ -1,9 +1,39 @@
 ﻿@model ToDo_List_with_additions.Models.StatisticsModel
+
 @{
-    ViewData["Statistics"] = "Statistics";
+    ViewData["Title"] = "Statistics";
 }
 
-<h1>Statistics</h1>
+@section Buttons {
+        <li>
+            <a asp-controller="User" asp-action="Edit">Edit profile</a>
+        </li>
+        <li>
+            <a asp-controller="User" asp-action="Logout">Logout</a>
+        </li>
+}
+
+@section Links {
+        <li>
+            <a asp-controller="ToDo" asp-action="Index">ToDo List</a>
+        </li>
+}
+
+<div class="statistics">
+    <div class="wrapper">
+        <h1>Statistics</h1>
+        <div class="table">
+            <div></div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.1.1/chart.min.js"></script>
+<script>
+    
+</script>
+
+
 
 <table class="table">
     <thead>

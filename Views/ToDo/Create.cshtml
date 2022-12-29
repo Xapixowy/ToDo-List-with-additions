@@ -1,10 +1,13 @@
 ﻿@model ToDo_List_with_additions.Models.ToDoModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "ToDo Create";
 }
 
 @section Buttons {
+    <li>
+        <a asp-controller="User" asp-action="Edit">Edit profile</a>
+    </li>
     <li>
         <a asp-controller="User" asp-action="Logout">Logout</a>
     </li>
@@ -24,19 +27,20 @@
         <h1>ToDo Create</h1>
         <form method="post" asp-action="Create">
             @Html.AntiForgeryToken()
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.ValidationSummary(true)
 
             <div class="form-group">
                 <label for="date">Date</label>
                 @Html.EditorFor(Model => Model.Date, new { htmlAttributes = new { @id="date", @name="date", @required="required" } })
                 @Html.ValidationMessageFor(Model => Model.Date)
             </div>
+            
             <div class="form-group">
                 <label for="content">Content</label>
-
                 @Html.EditorFor(Model => Model.Content, new { htmlAttributes = new { @id="content", @name="content", @required="required" } })
                 @Html.ValidationMessageFor(Model => Model.Content)
             </div>
+            
             <div class="form-group">
                 <label for="importance">Importance</label>
                 <select class="form-select" id="importance" name="importance">
@@ -46,6 +50,7 @@
                     <option value="3">Critical</option>
                 </select>
             </div>
+            
             <div class="form-group buttons">
                 <button>Create</button>
             </div>
