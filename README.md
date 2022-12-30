@@ -1,6 +1,3 @@
-# ToDo-List-with-additions
-Projekt z C#/.NET z programowania obiektowego.
-
 
 # ToDoList - CRUD Application
 Simple Fullstack application written in MVC asp.net with views created as a college project.
@@ -26,6 +23,10 @@ Main Functionality:
         <li>Deleting User</li>
         <li>Readin Users ToDos</li>
         <li>Editing and Deleting users ToDos</li>
+    </ul>
+ <li>Statistics</li>
+    <ul>
+        <li>Showing Data about ToDos(Done, NotDone, Postponed)</li>
     </ul>
 </ul>
 
