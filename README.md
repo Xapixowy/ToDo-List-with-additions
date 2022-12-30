@@ -6,7 +6,7 @@ Main Functionality:
 <ul>
 <li>User</li>
     <ul>
-        <li>Registering user</li>
+        <li>Registering User</li>
         <li>Logging User</li>
     </ul>
 <li>ToDo</li>
@@ -17,7 +17,8 @@ Main Functionality:
         <li>Marking as Done</li>
     </ul>
 <li>Admin</li>
-    <ul>   
+    <ul> 
+        <li>Reading Users</li>
         <li>Editing User</li>
         <li>Creating User</li>
         <li>Deleting User</li>
@@ -38,7 +39,7 @@ Main Functionality:
 Project is created with:
 * MVC asp.net- Used to build backend structure of application
 * Chartjs - Used to create charts to display users todos data
-* CSS/Bootstrap - Used for styling views in application
+*[![CSS](https://skills.thijs.gg/icons?i=css)](https://skills.thijs.gg) CSS - Used for styling views in application
 
 
 
