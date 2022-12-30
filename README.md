@@ -47,5 +47,5 @@ Project is created with:<br>
 Tests are avaible in <a href="https://github.com/Xapixowy/ToDo-List-with-additions/blob/dev/Test%20Users.postman_collection.json">Postman</a>
  
 ## Authors
-Dominik - https://github.com/Minio931 <img src="https://skillicons.dev/icons?i=github" width="2%"/><br>
-Jakub - https://github.com/Xapixowy <img src="https://skillicons.dev/icons?i=github" width="2%"/>
+Dominik<img src="https://skillicons.dev/icons?i=github" width="2%"/>< - https://github.com/Minio931 br>
+Jakub<img src="https://skillicons.dev/icons?i=github" width="2%"/> - https://github.com/Xapixowy 
