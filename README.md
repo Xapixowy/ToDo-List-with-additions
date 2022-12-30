@@ -1,7 +1,9 @@
 
 # ToDoList - CRUD Application
-Simple Fullstack application written in MVC asp.net with views created as a college project.
-<p style="text-align: center;">Watch Video</p>
+Simple Fullstack application written in MVC asp.net with views created as a college project.<br>
+
+Watch Video:
+<br>
 [![Watch the video](https://github.com/Xapixowy/ToDo-List-with-additions/blob/dev/wwwroot/assets/landing-page.jpg)](https://www.youtube.com/watch?v=mDm63kentlY)
 
 
