@@ -102,7 +102,8 @@ namespace ToDo_List_with_additions.Controllers
 				return RedirectToAction("Login", "User");
 			}
 			_usersService.Delete(userId);
-            return RedirectToAction(nameof(Index));
+			HttpContext.Session.Remove("userId");
+			return RedirectToAction(nameof(Index));
 		}
     }
 }
