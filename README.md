@@ -43,9 +43,8 @@ Project is created with:<br>
 * CSS - Used for styling views in application
 * MongoDB - Used for storing every data
 
-
-
-
+##Tests
+Tests are avaible in <a href="https://github.com/Xapixowy/ToDo-List-with-additions/blob/dev/Test%20Users.postman_collection.json">Postman</a>
  
 ## Authors
 Dominik - https://github.com/Minio931 <img src="https://skillicons.dev/icons?i=github" width="2%"/><br>
