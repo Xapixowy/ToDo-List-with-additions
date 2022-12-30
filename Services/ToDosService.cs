@@ -32,7 +32,7 @@ namespace ToDo_List_with_additions.Services
         public List<ToDoModel> GetOthers(string userId)
         {
             var today = DateTime.Now.Date;
-            var filter = Builders<ToDoModel>.Filter.Eq(t => t.UserId, userId) & Builders<ToDoModel>.Filter.Eq(t => t.Done, false) & Builders<ToDoModel>.Filter.Lt(t => t.Date, today);
+            var filter = Builders<ToDoModel>.Filter.Eq(t => t.UserId, userId) & Builders<ToDoModel>.Filter.Eq(t => t.Done, false) & Builders<ToDoModel>.Filter.Gt(t => t.Date, today);
             var toDoList = toDos.Find(filter).ToList();
             toDoList.Sort((x, y) => DateTime.Compare(x.Date, y.Date));
             toDoList.Reverse();

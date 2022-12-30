@@ -249,7 +249,7 @@ div:where(.login, .register, .edit-profile, .toDo-list, .toDos-create, .toDos-ed
     margin: 0 auto;
 }
 
-div:where(.toDo-list, .users) div.table, {
+div:where(.toDo-list, .users) div.table {
     display: flex;
     flex-direction: column;
 }

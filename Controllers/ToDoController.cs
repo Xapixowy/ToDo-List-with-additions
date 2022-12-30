@@ -39,6 +39,21 @@ namespace ToDo_List_with_additions.Controllers
                 ToDosOthers = _toDosService.GetOthers(userId),
                 ToDosDone = _toDosService.GetDone(userId)
             };
+            Console.WriteLine("ToDosToday(" + model.ToDosToday.Count + "):");
+            foreach (var item in model.ToDosToday)
+            {
+                Console.WriteLine(item.Id);
+            };
+            Console.WriteLine("ToDosOthers(" + model.ToDosOthers.Count + "):");
+            foreach (var item in model.ToDosOthers)
+            {
+                Console.WriteLine(item.Id);
+            };
+            Console.WriteLine("ToDosDone(" + model.ToDosDone.Count + "):");
+            foreach (var item in model.ToDosDone)
+            {
+                Console.WriteLine(item.Id);
+            };
             return View(model);
         }
         public IActionResult Create()
@@ -116,13 +131,11 @@ namespace ToDo_List_with_additions.Controllers
                 toDo.Done = done;
                 toDo.Importance = importance;
 				_toDosService.Edit(toDo);
-                
                 if (toDoBase.Date != date )
                 {
                     _statisticsService.IncrementPostponed(userId, toDo.Importance);
                     
                 }
-                
                 return RedirectToAction(nameof(Index));
             }
             return View();

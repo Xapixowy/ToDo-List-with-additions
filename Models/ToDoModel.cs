@@ -1,7 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System.ComponentModel.DataAnnotations;
-using ToDo_List_with_additions.Models.ValidationAttributes;
 namespace ToDo_List_with_additions.Models
 {
     public class ToDoModel 
