@@ -39,7 +39,7 @@ Main Functionality:
 Project is created with:
 * MVC asp.net- Used to build backend structure of application
 * Chartjs - Used to create charts to display users todos data <br>
-* <img src="https://skills.thijs.gg/icons?i=css" width="5%"> CSS - Used for styling views in application
+* <img src="https://skills.thijs.gg/icons?i=css" width="2%"> CSS - Used for styling views in application
 
 
 
