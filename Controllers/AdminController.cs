@@ -212,5 +212,7 @@ namespace ToDo_List_with_additions.Controllers
             _usersService.Delete(id);
             return RedirectToAction(nameof(Index));
         }
+        
+      
     }
 }

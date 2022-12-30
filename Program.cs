@@ -6,6 +6,7 @@ builder.Services.AddSingleton<IAdminService, AdminService>();
 builder.Services.AddSingleton<IUsersService, UsersService>();
 builder.Services.AddSingleton<IToDosService, ToDosService>();
 builder.Services.AddSingleton<IStatisticsService, StatisticsService>();
+builder.Services.AddSingleton<IAPIService, APIService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -13,7 +14,7 @@ builder.Services.AddDistributedMemoryCache();
 
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromSeconds(3600);
+    options.IdleTimeout = TimeSpan.FromSeconds(120);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
