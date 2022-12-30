@@ -31,30 +31,33 @@ namespace ToDo_List_with_additions.Controllers
 			{
 				return RedirectToAction("Login", "User");
 			}
-            var model = new ToDosModel()
+            else
             {
-                UserName = _usersService.GetUser(userId).FirstName + " " + _usersService.GetUser(userId).LastName,
-                UserNickname = _usersService.GetUser(userId).Nickname,
-                ToDosToday = _toDosService.GetToday(userId),
-                ToDosOthers = _toDosService.GetOthers(userId),
-                ToDosDone = _toDosService.GetDone(userId)
-            };
-            Console.WriteLine("ToDosToday(" + model.ToDosToday.Count + "):");
-            foreach (var item in model.ToDosToday)
-            {
-                Console.WriteLine(item.Id);
-            };
-            Console.WriteLine("ToDosOthers(" + model.ToDosOthers.Count + "):");
-            foreach (var item in model.ToDosOthers)
-            {
-                Console.WriteLine(item.Id);
-            };
-            Console.WriteLine("ToDosDone(" + model.ToDosDone.Count + "):");
-            foreach (var item in model.ToDosDone)
-            {
-                Console.WriteLine(item.Id);
-            };
-            return View(model);
+				var model = new ToDosModel()
+				{
+					UserName = _usersService.GetUser(userId).FirstName + " " + _usersService.GetUser(userId).LastName,
+					UserNickname = _usersService.GetUser(userId).Nickname,
+					ToDosToday = _toDosService.GetToday(userId),
+					ToDosOthers = _toDosService.GetOthers(userId),
+					ToDosDone = _toDosService.GetDone(userId)
+				};
+				Console.WriteLine("ToDosToday(" + model.ToDosToday.Count + "):");
+				foreach (var item in model.ToDosToday)
+				{
+					Console.WriteLine(item.Id);
+				};
+				Console.WriteLine("ToDosOthers(" + model.ToDosOthers.Count + "):");
+				foreach (var item in model.ToDosOthers)
+				{
+					Console.WriteLine(item.Id);
+				};
+				Console.WriteLine("ToDosDone(" + model.ToDosDone.Count + "):");
+				foreach (var item in model.ToDosDone)
+				{
+					Console.WriteLine(item.Id);
+				};
+				return View(model);
+			}
         }
         public IActionResult Create()
         {

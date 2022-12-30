@@ -60,7 +60,6 @@ namespace ToDo_List_with_additions.Controllers
 				_usersService.Register(user);
 				_statisticsService.Create(user.Id);
 				var userFromDb = _usersService.Login(user.Login, user.Password);
-				HttpContext.Session.SetString("userId", userFromDb.Id);
 				return RedirectToAction(nameof(Index));
 			}
 			ViewBag.LoginError = "Login is already taken";
