@@ -1,0 +1,424 @@
+{
+	"info": {
+		"_postman_id": "42aac530-5fae-485c-aef4-13776a82a019",
+		"name": "Test Users",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21651058"
+	},
+	"item": [
+		{
+			"name": "Get list of users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response Time\", function(){\r",
+							"    const limit = 500;\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(limit);\r",
+							"    if(pm.response.responseTime < limit){\r",
+							"        console.log(\"Response Time: \" + pm.response.responseTime + \"ms \");\r",
+							"    \r",
+							"    }else{\r",
+							"        console.log(\"Response time was longer than \" + limit + \"ms.\");\r",
+							"    }\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Status Code\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Get Users\",function(){\r",
+							"    const response = pm.response.json();\r",
+							"    response.forEach(element => pm.expect(element).to.have.property(\"id\"));\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5239/API/GetUsers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5239",
+					"path": [
+						"API",
+						"GetUsers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get single user (user in database)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"GET User\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"pm.test(\"Response Time\", function(){\r",
+							"    const limit = 500;\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(limit);\r",
+							"    if(pm.response.responseTime < limit){\r",
+							"        console.log(\"Response Time: \" + pm.response.responseTime + \"ms \");\r",
+							"    \r",
+							"    }else{\r",
+							"        console.log(\"Response time was longer than \" + limit + \"ms.\");\r",
+							"    }\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "login",
+						"value": "jdffhgjksdfhfgjkhdsfjkghkjdsfhgjkhdsfjkgh",
+						"type": "text"
+					},
+					{
+						"key": "id",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:5239/API/GetUser?login=testuser",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5239",
+					"path": [
+						"API",
+						"GetUser"
+					],
+					"query": [
+						{
+							"key": "login",
+							"value": "testuser"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get single user (no user in database)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"GET User\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"pm.test(\"Response Time\", function(){\r",
+							"    const limit = 500;\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(limit);\r",
+							"    if(pm.response.responseTime < limit){\r",
+							"        console.log(\"Response Time: \" + pm.response.responseTime + \"ms \");\r",
+							"    \r",
+							"    }else{\r",
+							"        console.log(\"Response time was longer than \" + limit + \"ms.\");\r",
+							"    }\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "login",
+						"value": "jdffhgjksdfhfgjkhdsfjkghkjdsfhgjkhdsfjkgh",
+						"type": "text"
+					},
+					{
+						"key": "id",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:5239/API/GetUser?login=dsadsa",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5239",
+					"path": [
+						"API",
+						"GetUser"
+					],
+					"query": [
+						{
+							"key": "login",
+							"value": "dsadsa"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"User Created\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"User exists\", function(){\r",
+							"    pm.response.to.have.status(400);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Response Time\", function(){\r",
+							"    const limit = 500;\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(limit);\r",
+							"    if(pm.response.responseTime < limit){\r",
+							"        console.log(\"Response Time: \" + pm.response.responseTime + \"ms \");\r",
+							"    \r",
+							"    }else{\r",
+							"        console.log(\"Response time was longer than \" + limit + \"ms.\");\r",
+							"    }\r",
+							"})\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5239/API/CreateUser?login=testuserPM1&password=123456&firstname=Post&lastname=Man&nickname",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5239",
+					"path": [
+						"API",
+						"CreateUser"
+					],
+					"query": [
+						{
+							"key": "login",
+							"value": "testuserPM1"
+						},
+						{
+							"key": "password",
+							"value": "123456"
+						},
+						{
+							"key": "firstname",
+							"value": "Post"
+						},
+						{
+							"key": "lastname",
+							"value": "Man"
+						},
+						{
+							"key": "nickname",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit user by id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"User Edited\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"pm.test(\"Login exists\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Login already Exists\");\r",
+							"\r",
+							"});\r",
+							"pm.test(\"Response time is less than 500ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5239/API/EditUser?id=63af0d81a110b49aaaab6913&property=login&value=testuser3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5239",
+					"path": [
+						"API",
+						"EditUser"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "63af0d81a110b49aaaab6913"
+						},
+						{
+							"key": "property",
+							"value": "login"
+						},
+						{
+							"key": "value",
+							"value": "testuser3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit user by login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"User Edited\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Response time is less than 500ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5239/API/EditUser?login=testuser3&property=nickname&value=POSTMAN 2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5239",
+					"path": [
+						"API",
+						"EditUser"
+					],
+					"query": [
+						{
+							"key": "login",
+							"value": "testuser3"
+						},
+						{
+							"key": "property",
+							"value": "nickname"
+						},
+						{
+							"key": "value",
+							"value": "POSTMAN 2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete user by id or login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"User Deleted\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5239/API/DeleteUser?id&login=testuserPM1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5239",
+					"path": [
+						"API",
+						"DeleteUser"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": null
+						},
+						{
+							"key": "login",
+							"value": "testuserPM1"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.variables.get(\"variable_key\");",
+					"pm.sendRequest(\"https://postman-echo.com/get\", function (err, response) {",
+					"    console.log(response.json());",
+					"});"
+				]
+			}
+		}
+	]
+}
