@@ -93,9 +93,15 @@ namespace ToDo_List_with_additions.Controllers
 			_usersService.Edit(user);
             return RedirectToAction(nameof(Index),"ToDo");
         }
-        public IActionResult Delete(string id)
+        public IActionResult Delete()
         {
-			_usersService.Delete(id);
+			var userId = HttpContext.Session.GetString("userId");
+			Console.WriteLine("Delete:" + userId);
+			if (userId == null)
+			{
+				return RedirectToAction("Login", "User");
+			}
+			_usersService.Delete(userId);
             return RedirectToAction(nameof(Index));
 		}
     }
