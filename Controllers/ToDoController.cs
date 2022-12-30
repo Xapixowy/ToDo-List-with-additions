@@ -25,11 +25,12 @@ namespace ToDo_List_with_additions.Controllers
         }
         public IActionResult Index()
         {
-			if (HttpContext.Session.GetString("userId") == null)
+            var userId = HttpContext.Session.GetString("userId");
+            Console.WriteLine("Index:" + userId);
+            if (userId == null)
 			{
 				return RedirectToAction("Login", "User");
 			}
-			var userId = HttpContext.Session.GetString("userId");
             var model = new ToDosModel()
             {
                 UserName = _usersService.GetUser(userId).FirstName + " " + _usersService.GetUser(userId).LastName,
@@ -42,24 +43,26 @@ namespace ToDo_List_with_additions.Controllers
         }
         public IActionResult Create()
         {
-            if (HttpContext.Session.GetString("userId") == null)
+            var userId = HttpContext.Session.GetString("userId");
+            if (userId == null)
             {
                 return RedirectToAction("Login", "User");
             }
+            Console.WriteLine("Create:" + userId);
             return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(DateTime date, string content, int importance, bool done)
         {
-			if (HttpContext.Session.GetString("userId") == null)
+            var userId = HttpContext.Session.GetString("userId");
+            Console.WriteLine("Create (POST):" + userId);
+            if (userId == null)
 			{
 				return RedirectToAction("Login", "User");
 			}
 			if (ModelState.IsValid)
             {
-                
-                var userId = HttpContext.Session.GetString("userId");
                 var toDo = new ToDoModel()
                 {
                     UserId = userId,
@@ -76,7 +79,9 @@ namespace ToDo_List_with_additions.Controllers
         }
         public IActionResult Edit(string id)
         {
-			if (HttpContext.Session.GetString("userId") == null)
+            var userId = HttpContext.Session.GetString("userId");
+            Console.WriteLine("Edit:" + userId);
+            if (userId  == null)
 			{
 				return RedirectToAction("Login", "User");
 			}
@@ -96,7 +101,9 @@ namespace ToDo_List_with_additions.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(string id, DateTime date, string content, int importance, bool done)
         {
-			if (HttpContext.Session.GetString("userId") == null)
+            var userId = HttpContext.Session.GetString("userId");
+            Console.WriteLine("Edit (POST):" + userId);
+            if (userId == null)
 			{
 				return RedirectToAction("Login", "User");
 			}
@@ -109,10 +116,10 @@ namespace ToDo_List_with_additions.Controllers
                 toDo.Done = done;
                 toDo.Importance = importance;
 				_toDosService.Edit(toDo);
-
+                
                 if (toDoBase.Date != date )
                 {
-                    _statisticsService.IncrementPostponed(HttpContext.Session.GetString("userId"), toDo.Importance);
+                    _statisticsService.IncrementPostponed(userId, toDo.Importance);
                     
                 }
                 
@@ -122,7 +129,9 @@ namespace ToDo_List_with_additions.Controllers
         }
         public IActionResult Delete(string id)
         {
-			if (HttpContext.Session.GetString("userId") == null)
+            var userId = HttpContext.Session.GetString("userId");
+            Console.WriteLine("Delete:" + userId);
+            if (userId == null)
 			{
 				return RedirectToAction("Login", "User");
 			}
@@ -132,7 +141,9 @@ namespace ToDo_List_with_additions.Controllers
 
         public IActionResult Done(string id)
         {
-            if (HttpContext.Session.GetString("userId") == null)
+            var userId = HttpContext.Session.GetString("userId");
+            Console.WriteLine("Done:" + userId);
+            if (userId == null)
             {
                 return RedirectToAction("Login", "User");
             }

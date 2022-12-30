@@ -7,6 +7,8 @@ namespace ToDo_List_with_additions.Services
     public class UsersService : IUsersService
     {
         private readonly IMongoCollection<UserModel> Users;
+        private readonly IMongoCollection<ToDoModel> ToDos;
+        private readonly IMongoCollection<StatisticsModel> Stats;
         public UsersService(IConfiguration config)
         {
             var settings = MongoClientSettings.FromConnectionString(config.GetValue<string>("Database:ConnectionString"));
@@ -19,6 +21,8 @@ namespace ToDo_List_with_additions.Services
             MongoClient client = new MongoClient(settings);
             IMongoDatabase database = client.GetDatabase(config.GetValue<string>("Database:DatabaseName"));
             Users = database.GetCollection<UserModel>("users");
+            ToDos = database.GetCollection<ToDoModel>("todos");
+            Stats = database.GetCollection<StatisticsModel>("stats");
         }
         public List<UserModel> Get()
         {
@@ -50,6 +54,12 @@ namespace ToDo_List_with_additions.Services
         {
             UserModel user = Users.Find<UserModel>(User => User.Id == id).FirstOrDefault();
             Users.DeleteOne(User => User.Id == id);
+            Stats.DeleteOne(Stat => Stat.userId == id);
+            var deleteToDos = ToDos.Find<ToDoModel>(Todo => Todo.UserId == id).ToList();
+            foreach(var toDo in deleteToDos)
+            {
+                ToDos.DeleteOne(toDo => true);
+            }
             return user;
         }
         public UserModel Login(string login, string password)
