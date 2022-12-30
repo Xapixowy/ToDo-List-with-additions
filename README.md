@@ -37,15 +37,16 @@ Main Functionality:
 
 ## Technologies
 Project is created with:
-* <img src="https://skillicons.dev/icons?i=cs" width="2%"/>MVC asp.net- Used to build backend structure of application
+<img src="https://skillicons.dev/icons?i=cs" width="2%"/> <img src="https://skills.thijs.gg/icons?i=css" width="2%"> <img src="https://skills.thijs.gg/icons?i=mongodb" width="2%"> <br?
+* MVC asp.net- Used to build backend structure of application
 * Chartjs - Used to create charts to display users todos data <br>
-* <img src="https://skills.thijs.gg/icons?i=css" width="2%"> CSS - Used for styling views in application
-* <img src="https://skills.thijs.gg/icons?i=mongodb" width="2%">MongoDB - Used for storing every data
+* CSS - Used for styling views in application
+* MongoDB - Used for storing every data
 
 
 
 
  
 ## Authors
-Dominik - https://github.com/Minio931 <br>
-Jakub - https://github.com/Xapixowy
+Dominik - https://github.com/Minio931 <img src="https://skillicons.dev/icons?i=github" width="2%"/><br>
+Jakub - https://github.com/Xapixowy <img src="https://skillicons.dev/icons?i=github" width="2%"/>
