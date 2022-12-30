@@ -5,27 +5,33 @@
 }
 
 @section Buttons {
-    <li>
-        <a asp-controller="User" asp-action="Edit">Edit profile</a>
+     <li>
+        <a asp-controller="Admin" asp-action="ToDoUserEdit">Edit User</a>
     </li>
     <li>
-        <a asp-controller="User" asp-action="Logout">Logout</a>
+        <a asp-controller="Admin" asp-action="ToDoUserDelete">Delete User</a>
     </li>
 }
 
 @section Links {
     <li>
-        <a asp-controller="ToDo" asp-action="Index">ToDo List</a>
+        <a asp-controller="Admin" asp-action="Index">Users</a>
     </li>
     <li>
-        <a asp-controller="Statistics" asp-action="Index">Statistics</a>
+        <a asp-controller="Admin" asp-action="ToDos">ToDo List</a>
     </li>
+}
+
+@section Style {
+    header {
+        background-color: var(--admin);
+    }
 }
 
 <div class="toDos-create">
     <div class="wrapper">
         <h1>ToDo Create</h1>
-        <form method="post" asp-action="Create">
+        <form method="post" asp-action="ToDoCreate">
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true)
 
@@ -34,13 +40,13 @@
                 @Html.EditorFor(Model => Model.Date, new { htmlAttributes = new { @id="date", @name="date", @required="required" } })
                 @Html.ValidationMessageFor(Model => Model.Date)
             </div>
-            
+
             <div class="form-group">
                 <label for="content">Content</label>
                 @Html.EditorFor(Model => Model.Content, new { htmlAttributes = new { @id="content", @name="content", @required="required" } })
                 @Html.ValidationMessageFor(Model => Model.Content)
             </div>
-            
+
             <div class="form-group">
                 <label for="importance">Importance</label>
                 <select class="form-select" id="importance" name="importance">
@@ -50,22 +56,24 @@
                     <option value="3">Critical</option>
                 </select>
             </div>
-            
+
             <div class="form-group buttons">
                 <button>Create</button>
-            </div>            
+            </div>
         </form>
     </div>
 </div>
 
 <script>
-	const dateTimeInputs = document.querySelectorAll('input[type="datetime-local"]');
+    const dateTimeInputs = document.querySelectorAll('input[type="datetime-local"]');
     const today = new Date().toISOString().split('T')[0];
-	dateTimeInputs.forEach(input => {
+    dateTimeInputs.forEach(input => {
         input.setAttribute('min', today);
-	});
+    });
 </script>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

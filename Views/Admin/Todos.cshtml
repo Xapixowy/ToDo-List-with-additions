@@ -1,0 +1,102 @@
+﻿@model ToDo_List_with_additions.Models.ToDosAdminModel
+
+@{
+    ViewData["Title"] = "ToDo List";
+}
+
+@section Buttons {
+    <li>
+        <a class="toDo-history" asp-controller="Admin" asp-action="ToDoCreate">Create Todo</a>
+    </li>
+     <li>
+        <a asp-controller="Admin" asp-action="ToDoUserEdit">Edit User</a>
+    </li>
+    <li>
+        <a asp-controller="Admin" asp-action="ToDoUserDelete">Delete User</a>
+    </li>
+}
+
+@section Links {
+    <li>
+        <a asp-controller="Admin" asp-action="Index">Users</a>
+    </li>
+    <li>
+        <a asp-controller="Admin" asp-action="ToDos">ToDo List</a>
+    </li>
+}
+
+@section Style {
+    header {
+        background-color: var(--admin);
+    }
+}
+
+<div class="toDo-list">
+    <div class="wrapper">
+        @if (Model.UserNickname != null)
+        {
+            <h1>@Model.UserNickname's ToDo List</h1>
+        }
+        else
+        {
+            <h1>@Model.UserName's ToDo List</h1>
+        }
+        <div class="table">
+            <div class="toDosToday">
+                <h2>All <span class="count">(@Model.ToDos.Count)</span></h2>
+                <div class="toDo toDo-headers">
+                    <div class="toDo-done">Done</div>
+                    <div class="toDo-date">Date</div>
+                    <div class="toDo-content">Content</div>
+                    <div class="toDo-importance">Importance</div>
+                    <div class="toDo-actions">Actions</div>
+                </div>
+                @foreach (var item in Model.ToDos)
+                {
+                    <div class="toDo">
+                        <div class="toDo-done">
+                            @if (item.Done)
+                            {
+                                <i class="ti ti-square-check"></i>
+                            }
+                            else
+                            {
+                                <i class='ti ti-square'></i>
+                            }
+                        </div>
+                        <div class="toDo-date">@item.Date</div>
+                        <div class="toDo-content">@item.Content</div>
+                        @{
+                            int importance = item.Importance;
+                            if (importance == 0)
+                            {
+                                <div class="toDo-importance">Low</div>
+                            }
+                            else if (importance == 1)
+                            {
+                                <div class="toDo-importance">Medium</div>
+
+                            }
+                            else if (importance == 2)
+                            {
+                                <div class="toDo-importance">High</div>
+                            }
+                            else
+                            {
+                                <div class="toDo-importance">Critical</div>
+                            }
+                        }
+                        <div class="toDo-actions">
+                            @if (!item.Done)
+                            {
+                                <a class="done-btn" asp-action="ToDoDone" asp-route-id="@item.Id">Done</a>
+                                <a class="edit-btn" asp-action="ToDoEdit" asp-route-id="@item.Id">Edit</a>
+                            }
+                            <a class="delete-btn" asp-action="ToDoDelete" asp-route-id="@item.Id">Delete</a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

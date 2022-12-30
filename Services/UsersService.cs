@@ -1,13 +1,14 @@
 ﻿using ToDo_List_with_additions.Models;
 using MongoDB.Driver;
 using System.Security.Cryptography.X509Certificates;
-using Microsoft.Extensions.Configuration;
 
 namespace ToDo_List_with_additions.Services
 {
-    public class UsersService
+    public class UsersService : IUsersService
     {
         private readonly IMongoCollection<UserModel> Users;
+        private readonly IMongoCollection<ToDoModel> ToDos;
+        private readonly IMongoCollection<StatisticsModel> Stats;
         public UsersService(IConfiguration config)
         {
             var settings = MongoClientSettings.FromConnectionString(config.GetValue<string>("Database:ConnectionString"));
@@ -20,6 +21,8 @@ namespace ToDo_List_with_additions.Services
             MongoClient client = new MongoClient(settings);
             IMongoDatabase database = client.GetDatabase(config.GetValue<string>("Database:DatabaseName"));
             Users = database.GetCollection<UserModel>("users");
+            ToDos = database.GetCollection<ToDoModel>("todos");
+            Stats = database.GetCollection<StatisticsModel>("stats");
         }
         public List<UserModel> Get()
         {
@@ -32,7 +35,14 @@ namespace ToDo_List_with_additions.Services
         }
         public UserModel Register(UserModel user)
         {
+            
             Users.InsertOne(user);
+            
+            return user;
+        }
+        public UserModel CheckLogin(string login)
+        {
+            UserModel user = Users.Find<UserModel>(User => User.Login == login).FirstOrDefault();
             return user;
         }
         public UserModel Edit(UserModel user)
@@ -44,6 +54,17 @@ namespace ToDo_List_with_additions.Services
         {
             UserModel user = Users.Find<UserModel>(User => User.Id == id).FirstOrDefault();
             Users.DeleteOne(User => User.Id == id);
+            Stats.DeleteOne(Stat => Stat.userId == id);
+            var deleteToDos = ToDos.Find<ToDoModel>(Todo => Todo.UserId == id).ToList();
+            foreach(var toDo in deleteToDos)
+            {
+                ToDos.DeleteOne(toDo => true);
+            }
+            return user;
+        }
+        public UserModel Login(string login, string password)
+        {
+            UserModel user = Users.Find<UserModel>(User => User.Login == login && User.Password == password).FirstOrDefault();
             return user;
         }
     }

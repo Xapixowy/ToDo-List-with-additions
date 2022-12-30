@@ -8,33 +8,68 @@ namespace ToDo_List_with_additions.Controllers
 {
     public class UserController : Controller
     {
-        private readonly UsersService usersService;
-        public UserController(UsersService usersService)
+		private readonly ILogger<UserController> _logger;
+		private readonly IUsersService _usersService;
+        private readonly IStatisticsService _statisticsService;
+        public UserController(ILogger<UserController> logger, IUsersService usersService, IStatisticsService statisticsService)
         {
-            this.usersService = usersService;
+            _logger = logger;
+            _usersService = usersService;
+            _statisticsService = statisticsService;
         }
-        public ActionResult Index()
+
+        public IActionResult Index()
         {
-            var model = new UsersModel()
-            {
-                Users = usersService.Get()
-            };
-            return View(model);
+            return View("Login");
         }
-        public ActionResult Register()
+        public IActionResult Login()
         {
             return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(UserModel user)
+        public IActionResult Login(UserModel user)
         {
-            usersService.Register(user);
-            return RedirectToAction(nameof(Index));
+            var userFromDb = _usersService.Login(user.Login, user.Password);
+            if (userFromDb != null)
+            {
+                HttpContext.Session.SetString("userId", userFromDb.Id);
+                return RedirectToAction("Index", "ToDo");
+            }
+            ViewBag.LoginError = "Login or Password is incorrect";
+            return View();
         }
-        public ActionResult Edit(string id)
+
+        public IActionResult Logout()
         {
-            var user = usersService.GetUser(id);
+            HttpContext.Session.Remove("userId");
+            return RedirectToAction(nameof(Login));
+        }
+     
+        public IActionResult Register()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Register(UserModel user)
+        {
+            var userValidation = _usersService.CheckLogin(user.Login);
+            if (userValidation == null)
+            {
+                _usersService.Register(user);
+                _statisticsService.Create(user.Id);
+                var userFromDb = _usersService.Login(user.Login, user.Password);
+                HttpContext.Session.SetString("userId", userFromDb.Id);
+                return RedirectToAction("Index", "ToDo");
+            }
+            ViewBag.LoginError = "Login is already taken";
+            return View();
+        }
+        public IActionResult Edit()
+        {
+            var userId = HttpContext.Session.GetString("userId");
+            var user = _usersService.GetUser(userId);
             var model = new UserModel()
             {
                 Id = user.Id,
@@ -48,21 +83,27 @@ namespace ToDo_List_with_additions.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(string id, string login, string password, string firstname, string lastname, string nickname)
+        public IActionResult Edit(string firstname, string lastname, string nickname)
         {
-            var user = usersService.GetUser(id);
-            user.Login = login;
-            user.Password = password;
+            var userId = HttpContext.Session.GetString("userId");
+            var user = _usersService.GetUser(userId);
             user.FirstName = firstname;
             user.LastName = lastname;
             user.Nickname = nickname;
-            usersService.Edit(user);
-            return RedirectToAction(nameof(Index));
+			_usersService.Edit(user);
+            return RedirectToAction(nameof(Index),"ToDo");
         }
-        public ActionResult Delete(string id)
+        public IActionResult Delete()
         {
-            usersService.Delete(id);
-            return RedirectToAction(nameof(Index));
+			var userId = HttpContext.Session.GetString("userId");
+			Console.WriteLine("Delete:" + userId);
+			if (userId == null)
+			{
+				return RedirectToAction("Login", "User");
+			}
+			_usersService.Delete(userId);
+			HttpContext.Session.Remove("userId");
+			return RedirectToAction(nameof(Index));
 		}
     }
 }

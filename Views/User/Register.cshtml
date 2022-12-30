@@ -4,40 +4,61 @@
     ViewData["Title"] = "Register";
 }
 
-<h1>Register</h1>
+@section Buttons {
+    <li>
+        <a asp-controller="User" asp-action="Login">Login</a>
+    </li>
+}
 
-<h4>User</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+<div class="register">
+    <div class="wrapper">
+        <h1>Register</h1>
         <form method="post" asp-action="Register">
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+
             <div class="form-group">
                 <label for="login">Login</label>
-                <input type="text" class="form-control" id="login" name="login" />
+                @Html.EditorFor(Model => Model.Login, new { htmlAttributes = new { @id="login", @name="login", @required="required" } })
+                @Html.ValidationMessageFor(Model => Model.Login)
+                <div class="form-group">
+                    @if (@ViewBag.LoginError != null)
+                    {
+                            <span class="field-validation-error">@ViewBag.LoginError</span>
+                    }
+                </div>
             </div>
+            
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" name="password" required />
+                @Html.EditorFor(Model => Model.Password, new { htmlAttributes = new { @id="password", @name="password", @required="required", @type="password"} })
+                @Html.ValidationMessageFor(Model => Model.Password)
             </div>
+            
             <div class="form-group">
                 <label for="firstName">First Name</label>
-                <input type="text" class="form-control" id="firstName" name="firstName" required />
+                @Html.EditorFor(Model => Model.FirstName, new { htmlAttributes = new { @id="firstName", @name="firstName", @required="required" } })
+                @Html.ValidationMessageFor(Model => Model.FirstName)
             </div>
+            
             <div class="form-group">
                 <label for="lastName">Last Name</label>
-                <input type="text" class="form-control" id="lastName" name="lastName" required />
+                @Html.EditorFor(Model => Model.LastName, new { htmlAttributes = new { @id="lastName", @name="lastName", @required="required" } })
+                @Html.ValidationMessageFor(Model => Model.LastName)
             </div>
+            
             <div class="form-group">
                 <label for="nickname">Nickname</label>
-                <input type="text" class="form-control" id="nickname" name="nickname" required />
+                @Html.EditorFor(Model => Model.Nickname, new { htmlAttributes = new { @id="nickname", @name="nickname" } })
+                @Html.ValidationMessageFor(Model => Model.Nickname)
             </div>
-            <button class="btn btn-primary">Submit</button>
+
+            <div class="form-group buttons">
+                <button>Register</button>
+            </div>
+            
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

@@ -1,0 +1,47 @@
+﻿@model ToDo_List_with_additions.Models.UserModel
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+@section Buttons {
+    <li>
+        <a class="register-btn" asp-controller="User" asp-action="Register">Register</a>
+    </li>
+}
+
+<div class="login">
+    <div class="wrapper">
+        <h1>Login</h1>
+        <form method="post" asp-action="Login">
+            <div class="form-group">
+                <label for="login">Login</label>
+                @Html.EditorFor(Model => Model.Login, new { htmlAttributes = new { @id="login", @name="login", @required="required" } })
+                @Html.ValidationMessageFor(Model => Model.Login)
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                @Html.EditorFor(Model => Model.Password, new { htmlAttributes = new { @id="password", @name="password", @required="required", @type="password" } })
+                @Html.ValidationMessageFor(Model => Model.Password)
+            </div>
+            
+            <div class="form-group buttons">
+                <button>Login</button>
+            </div>
+
+			<div class="form-group">
+                @if (@ViewBag.LoginError != null)
+                {
+                    <span class="field-validation-error">@ViewBag.LoginError</span>
+                }
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

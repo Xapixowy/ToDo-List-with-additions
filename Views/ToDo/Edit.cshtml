@@ -1,31 +1,47 @@
 ﻿@model ToDo_List_with_additions.Models.ToDoModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "ToDo Edit";
 }
 
-<h1>Edit</h1>
+@section Buttons {
+    <li>
+        <a asp-controller="User" asp-action="Edit">Edit profile</a>
+    </li>
+    <li>
+        <a asp-controller="User" asp-action="Logout">Logout</a>
+    </li>
+}
 
-<h4>ToDo</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+@section Links {
+    <li>
+        <a asp-controller="ToDo" asp-action="Index">ToDo List</a>
+    </li>
+    <li>
+        <a asp-controller="Statistics" asp-action="Index">Statistics</a>
+    </li>
+}
+
+<div class="toDos-edit">
+    <div class="wrapper">
+        <h1>ToDo Edit</h1>
         <form method="post" asp-action="Edit">
-            <div class="form-group" style="display:none">
-                <input type="text" class="form-control" name="id" value="@Model.Id" />
-            </div>
-            <div class="form-group" style="display:none">
-                <input type="text" class="form-control" name="userId" value="@Model.UserId" />
-            </div>
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+
             <div class="form-group">
                 <label for="date">Date</label>
-				@Html.EditorFor(Model => Model.Date, new { htmlAttributes = new { @class = "form-control", @id="date", @name="date" } })
+                @Html.EditorFor(Model => Model.Date, new { htmlAttributes = new { @id="date", @name="date", @required="required" } })
+                @Html.ValidationMessageFor(Model => Model.Date)               
             </div>
-			<div class="form-group">
-				<label for="content">Content</label>
-                <input type="text" class="form-control" id="content" name="content" value="@Model.Content" />
-			</div>
-			<div class="form-group">
+            
+            <div class="form-group">
+                <label for="content">Content</label>
+                @Html.EditorFor(Model => Model.Content, new { htmlAttributes = new { @id="content", @name="content", @required="required" } })
+                @Html.ValidationMessageFor(Model => Model.Content)
+            </div>
+            
+            <div class="form-group">
                 <label for="importance">Importance</label>
                 <select class="form-select" id="importance" name="importance">
                     <option value="0">Low</option>
@@ -34,23 +50,28 @@
                     <option value="3">Critical</option>
                 </select>
             </div>
-            <div class="form-check form-switch">
-                <label class="form-check-label" for="done">Done</label>
-				@Html.EditorFor(Model => Model.Done, new { htmlAttributes = new { @class = "form-check-input", @id = "done", @name = "done" } })
+            
+            <div class="form-group buttons">
+                <button>Edit</button>
             </div>
-            <button class="btn btn-primary">Submit</button>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 <script>
 	const select = document.getElementById("importance");
 	select.value = "@Model.Importance";
+    
+    const dateTimeInputs = document.querySelectorAll('input[type="datetime-local"]');
+    const today = new Date().toISOString().split('T')[0];
+	dateTimeInputs.forEach(input => {
+        input.setAttribute('min', today);
+	});
 </script>
+
+<script src="/Scripts/jquery.unobtrusive-ajax.js"></script>
+<script src="/Scripts/jquery.validate.js"></script>
+<script src="/Scripts/jquery.validate.unobtrusive.js"></script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

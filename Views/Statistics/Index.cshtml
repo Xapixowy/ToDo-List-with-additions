@@ -1,0 +1,128 @@
+﻿@model ToDo_List_with_additions.Models.StatisticsModel
+
+@{
+    ViewData["Title"] = "Statistics";
+}
+
+@section Buttons {
+        <li>
+            <a asp-controller="User" asp-action="Edit">Edit profile</a>
+        </li>
+        <li>
+            <a asp-controller="User" asp-action="Logout">Logout</a>
+        </li>
+}
+
+@section Links {
+        <li>
+            <a asp-controller="ToDo" asp-action="Index">ToDo List</a>
+        </li>
+}
+
+<div class="statistics">
+    <div class="wrapper">
+        <h1>Statistics</h1>
+        <div class="table">
+            <div class="graph">
+                <h2>ToDos with low importance</h2>
+                <canvas id="importance-low"></canvas>
+            </div>
+            
+            <div class="graph">
+                <h2>ToDos with medium importance</h2>
+                <canvas id="importance-medium"></canvas>
+            </div>
+            
+            <div class="graph">
+                <h2>ToDos with high importance</h2>
+                <canvas id="importance-high"></canvas>
+            </div>
+            
+            <div class="graph">
+                <h2>ToDos with critical importance</h2>
+                <canvas id="importance-critical"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    (async function () {
+        const data = {
+            low: [
+                @Model.Done["0"],
+	            @Model.NotDone["0"],
+                @Model.Postponed["0"]
+            ],
+			medium: [
+	            @Model.Done["1"],
+	            @Model.NotDone["1"],
+	            @Model.Postponed["1"]
+			],
+			high: [
+	            @Model.Done["2"],
+	            @Model.NotDone["2"],
+	            @Model.Postponed["2"]
+            ],
+			critical: [
+	            @Model.Done["3"],
+	            @Model.NotDone["3"],
+	            @Model.Postponed["3"]
+			]
+        };
+
+        new Chart(document.getElementById('importance-low'), {
+            type: 'doughnut',
+            data: {
+                labels: ['ToDos Done', 'ToDos Not Done', 'ToDos Postponed'],
+                datasets: [
+                    {
+                        label: ' Low importance',
+                        data: data.low,
+                        backgroundColor: ['#228b22', '#c73131', '#ffca2c'],
+                    },
+                ],
+            },
+        });
+        new Chart(document.getElementById('importance-medium'), {
+            type: 'doughnut',
+            data: {
+                labels: ['ToDos Done', 'ToDos Not Done', 'ToDos Postponed'],
+                datasets: [
+                    {
+                        label: ' Medium importance',
+                        data: data.medium,
+                        backgroundColor: ['#228b22', '#c73131', '#ffca2c'],
+                    },
+                ],
+            },
+        });
+        new Chart(document.getElementById('importance-high'), {
+            type: 'doughnut',
+            data: {
+                labels: ['ToDos Done', 'ToDos Not Done', 'ToDos Postponed'],
+                datasets: [
+                    {
+                        label: ' High importance',
+                        data: data.high,
+                        backgroundColor: ['#228b22', '#c73131', '#ffca2c'],
+                    },
+                ],
+            },
+        });
+        new Chart(document.getElementById('importance-critical'), {
+            type: 'doughnut',
+            data: {
+                labels: ['ToDos Done', 'ToDos Not Done', 'ToDos Postponed'],
+                datasets: [
+                    {
+                        label: ' Critical importance',
+                        data: data.critical,
+                        backgroundColor: ['#228b22', '#c73131', '#ffca2c'],
+                    },
+                ],
+            },
+        });
+    })();
+</script>

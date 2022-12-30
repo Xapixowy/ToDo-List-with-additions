@@ -2,6 +2,10 @@
 {
     public class ToDosModel
     {
-        public List<ToDoModel> ToDos { get; set; }
+        public string UserName { get; set; }
+        public string UserNickname { get; set; }
+        public List<ToDoModel> ToDosToday { get; set; }
+        public List<ToDoModel> ToDosOthers { get; set; }
+        public List<ToDoModel> ToDosDone { get; set; }
     }
 }

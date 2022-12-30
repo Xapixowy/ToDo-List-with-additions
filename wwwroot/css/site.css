@@ -1,22 +1,478 @@
-html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+:root {
+    --grey: #b4bec9;
+    --turquoise: #159a9c;
+    --navy: #002333;
+    --mint: #deefe7;
+    --admin: #801700;
 }
 
 body {
-  margin-bottom: 60px;
+    font-size: 16px;
+    font-family: 'Lato', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+body div.wrapper {
+    width: 100%;
+    max-width: 1600px;
+    height: 100%;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+header {
+    height: 70px;
+    background-color: var(--navy);
+    z-index: 1;
+}
+
+header > div.wrapper {
+    display: flex;
+    align-items: center;
+}
+
+header .app-name > a {
+    font-size: 1.2em;
+    margin-right: 15px;
+    text-decoration: none;
+    color: #fff;
+    transition: opacity 0.1s;
+}
+
+header .app-name > a:hover {
+    opacity: 0.9;
+}
+
+header nav.links {
+    margin-left: 25px;
+    flex-grow: 1;
+}
+
+header nav > ul {
+    list-style-type: none;
+    display: flex;
+    gap: 10px;
+}
+
+header nav > ul > li > a {
+    text-decoration: none;
+    color: #fff;
+    transition: opacity 0.1s;
+}
+
+header nav > ul > li > a:hover {
+    opacity: 0.9;
+}
+
+header nav > ul > li > a:where(.register-btn, .toDo-history) {
+    padding: 5px 10px;
+    color: var(--navy);
+    background-color: var(--mint);
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+header .links li {
+    margin-right: 10px;
+}
+
+header .buttons li {
+    margin-left: 10px;
+}
+main {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+main section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+main section.first > div.wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    height: 700px;
+    align-items: center;
+    padding: 0 50px;
+}
+
+main section.first h1 {
+    font-size: 3em;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+}
+
+main section.first div.text {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+}
+
+main section.first div.text > h2 {
+    font-size: 2.5em;
+    font-weight: bold;
+    text-align: center;
+    margin: 5px 0;
+}
+
+main section.first div.text > h2:first-of-type{
+    text-align: left;
+}
+
+main section.first div.text > h2:last-of-type {
+    text-align: right;
+}
+
+main section.first div.text span {
+    color: var(--turquoise);
+}
+
+main section.first div.text > p {
+    margin-top: 50px;
+    font-size: 1.5em;
+    word-spacing: 15px;
+    font-weight: 700;
+    text-align: justify;
+    line-height: 1.25em;
+}
+
+main section.first img {
+    width: 60%;
+    padding-left: 30px;
+}
+
+main section.second {
+    flex-grow: 1;
+    background-color: var(--navy);
+}
+
+main section.second > div.wrapper {
+    padding: 50px 50px;
+    color: #fff;
+    display: flex;
+}
+
+main section.second img {
+    width: 45%;
+    padding-right: 30px;
+}
+
+main section.second div.text {
+    width: 55%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    font-size: 1.5em;
+}
+
+main section.second div.text p > span {
+    color: var(--mint);
+    font-weight: 700;
+    line-height: 1.2em;
+}
+
+main form {
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+main form > div.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+main form > div.form-group > label {
+    font-weight: bold;
+}
+
+main form > div.form-group > input {
+    font-size: 1em;
+    padding: 5px 10px;
+}
+
+main form > div.form-group > select {
+    font-size: 1em;
+    padding: 5px 10px;
+}
+
+main form > div.form-group span.field-validation-error {
+    color: tomato;
+}
+
+main form > div.form-group.buttons {
+    flex-direction: row;
+    justify-content: center;
+}
+
+main form > div.form-group.buttons button {
+    padding: 5px 25px;
+    background-color: var(--turquoise);
+    color: #fff;
+    border-radius: 5px;
+    border: none;
+    transition: opacity 0.1s, transform 0.05s;
+}
+
+main form > div.form-group.buttons button:hover {
+    opacity: 0.9;
+}
+
+main form > div.form-group.buttons button:active {
+    transform: scale(1.05);
+}
+
+main h1 {
+    font-size: 3em;
+    font-weight: bold;
+    text-align: center;
+}
+
+div:where(.login, .register, .edit-profile, .toDo-list, .users, .toDos-create, .toDos-edit, .statistics) > div.wrapper {
+    padding: 50px 15px;
+}
+
+div:where(.login, .register, .edit-profile, .toDo-list, .users, .toDos-create, .toDos-edit, .statistics) h1 {
+    margin-bottom: 25px;
+}
+
+div:where(.login, .register, .edit-profile, .toDo-list, .toDos-create, .toDos-edit, .statistics) form {
+    margin: 0 auto;
+}
+
+div:where(.toDo-list, .users) div.table {
+    display: flex;
+    flex-direction: column;
+}
+
+div:where(.toDo-list, .users) div.table > div:where(.toDosToday, .toDosOthers, .user) {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+div.toDo-list div.table h2,
+div.toDosDone h2 {
+    width: 100%;
+    font-size: 2em;
+    margin: 25px 0;
+}
+
+div.toDo-list div.table div.toDo,
+div.toDosDone div.toDo,
+div.users div.table div.user {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+div.users div.table div.user > div {
+    width: calc(100% / 7);
+}
+
+div.toDo-list div.table div.toDo.toDo-headers,
+div.toDosDone div.toDo.toDo-headers,
+div.users div.table div.users-headers {
+    font-weight: 700;
+}
+
+div.toDo-list div.table div.toDo > div,
+div.toDosDone div.wrapper > div,
+div.users div.table div.user > div {
+    margin: 15px 0;
+}
+
+div.toDo-list div.table div.toDo > div.toDo-done,
+div.toDosDone div.wrapper div.toDo > div.toDo-done {
+    text-align: center;
+    width: 75px;
+}
+
+div.toDo-list div.table div.toDo > div.toDo-done > i,
+div.toDosDone div.wrapper div.toDo > div.toDo-done > i {
+    font-size: 1.5em;
+}
+
+div.toDo-list div.table div.toDo > div.toDo-date,
+div.toDosDone div.wrapper div.toDo > div.toDo-date {
+    width: 200px;
+}
+
+div.toDo-list div.table div.toDo > div.toDo-content,
+div.toDosDone div.wrapper div.toDo > div.toDo-content {
+    flex-grow: 1;
+}
+
+div.toDo-list div.table div.toDo > div.toDo-importance,
+div.toDosDone div.wrapper div.toDo > div.toDo-importance {
+    width: 100px;
+}
+
+div.toDo-list div.table div.toDo > div.toDo-actions,
+div.toDosDone div.wrapper div.toDo > div.toDo-actions,
+div.users div.table div.user > div.user-actions {
+    text-align: center;
+    width: 250px;
+}
+
+div.toDo-list div.table div.toDo > div.toDo-actions > a,
+div.toDosDone div.wrapper div.toDo > div.toDo-actions > a,
+div.users div.table div.user > div.user-actions > a {
+    text-decoration: none;
+    color: #000;
+    margin: 0 5px;
+    padding: 5px 15px;
+    border: none;
+    border-radius: 5px;
+    transition: opacity 0.1s, transform 0.05s;
+    cursor: pointer;
+}
+
+div.toDo-list div.table div.toDo > div.toDo-actions > a:hover,
+div.toDosDone div.wrapper div.toDo > div.toDo-actions > a:hover,
+div.users div.table div.user > div.user-actions > a:hover {
+    opacity: 0.8;
+}
+
+div.toDo-list div.table div.toDo > div.toDo-actions > a:active,
+div.toDosDone div.wrapper div.toDo > div.toDo-actions > a:active,
+div.users div.table div.user > div.user-actions > a:active {
+    transform: scale(1.05);
+}
+
+div.toDo-list div.table div.toDo > div.toDo-actions > a.done-btn,
+div.toDosDone div.wrapper div.toDo > div.toDo-actions > a.done-btn {
+    background-color: #228b22;
+    color: #fff;
+}
+
+div.users div.table div.user > div.user-actions > a.todos-btn {
+    background-color: var(--turquoise);
+    color: #fff;
+}
+
+div.toDo-list div.table div.toDo > div.toDo-actions > a.edit-btn,
+div.toDosDone div.wrapper div.toDo > div.toDo-actions > a.edit-btn,
+div.users div.table div.user > div.user-actions > a.edit-btn {
+    background-color: #ffca2c;
+    color: #000;
+}
+
+div.toDo-list div.table div.toDo > div.toDo-actions > a.delete-btn,
+div.toDosDone div.wrapper div.toDo > div.toDo-actions > a.delete-btn,
+div.users div.table div.user > div.user-actions > a.delete-btn {
+    background-color: #c73131;
+    color: #fff;
+}
+
+div.toDo-list div.table h2 > span.count,
+div.toDosDone h2 > span.count {
+    color: var(--turquoise);
+}
+
+div.toDo-list div.table div.buttons {
+    margin: 25px 0;
+    display: flex;
+    justify-content: center;
+}
+
+div.toDo-list div.table div.buttons > a {
+    text-decoration: none;
+    padding: 10px 15px;
+    background-color: var(--turquoise);
+    color: #fff;
+    border-radius: 5px;
+    border: none;
+    transition: opacity 0.1s, transform 0.05s;
+    cursor: pointer;
+}
+
+div.toDo-list div.table div.buttons > a:hover {
+    opacity: 0.8;
+}
+
+div.toDo-list div.table div.buttons > a:active {
+    transform: scale(1.05);
+}
+
+div.toDosDone {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: #fff;
+    transform: translateY(100vh);
+    transition: transform 0.5s;
+}
+
+div.toDosDone.show {
+    transform: translateY(0);
+}
+
+div.toDosDone > div.wrapper {
+    margin: 70px auto;
+    padding: 50px 15px;
+    overflow-y: scroll;
+}
+
+div.statistics > div.wrapper > div.table {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+div.statistics > div.wrapper h2 {
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+}
+
+div.statistics > div.wrapper div.graph {
+    margin: 25px auto 25px auto;
+    width: min(475px);
+}
+
+i.ti.ti-square-check {
+    color: green;
+}
+
+footer {
+    background-color: var(--grey);
+    color: #000;
+    padding: 10px;
+    min-height: 70px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    text-align: center;
+    z-index: 1;
+}
+
+footer > div.footer {
+    font-weight: 700;
+}
+
+footer > div.footer > a {
+    text-decoration: none;
+    color: var(--turquoise);
+    transition: opacity 0.1s;
+}
+
+footer > div.footer > a:hover {
+    opacity: 0.5;
 }

@@ -9,20 +9,25 @@ namespace ToDo_List_with_additions.Models
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
+        
         [BsonElement("login")]
-        [Required]
+        [Required(ErrorMessage = "Login is required")]
         public string Login { get; set; }
+        
         [BsonElement("password")]
-        [Required]
+        [StringLength(20, MinimumLength = 6, ErrorMessage = "Password must be at least 6 characters long")]
+        
         public string Password { get; set; }
+        
         [BsonElement("firstName")]
-        [Required]
+        [Required(ErrorMessage = "First name is required")]
         public string? FirstName { get; set; }
+        
         [BsonElement("lastName")]
-        [Required]
+        [Required(ErrorMessage = "Last name is required")]
         public string? LastName { get; set; }
+        
         [BsonElement("nickname")]
-        [Required]
         public string? Nickname { get; set; }
     }
 }
