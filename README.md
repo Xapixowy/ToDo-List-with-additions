@@ -38,8 +38,9 @@ Main Functionality:
 ## Technologies
 Project is created with:
 * MVC asp.net- Used to build backend structure of application
-* Chartjs - Used to create charts to display users todos data
-*[![CSS](https://skills.thijs.gg/icons?i=css)](https://skills.thijs.gg) CSS - Used for styling views in application
+* Chartjs - Used to create charts to display users todos data <br>
+* <img src="https://skills.thijs.gg/icons?i=css" width="25%"> CSS - Used for styling views in application
+
 
 
 
