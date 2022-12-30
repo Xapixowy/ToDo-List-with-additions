@@ -38,7 +38,7 @@ Main Functionality:
 ## Technologies
 Project is created with:<br>
 <img src="https://skillicons.dev/icons?i=cs" width="5%"/> <img src="https://skills.thijs.gg/icons?i=css" width="5%"> <img src="https://skills.thijs.gg/icons?i=mongodb" width="5%"> <br>
-* MVC asp.net- Used to build backend structure of application
+* .Net- Used to build backend structure of application
 * Chartjs - Used to create charts to display users todos data <br>
 * CSS - Used for styling views in application
 * MongoDB - Used for storing every data
